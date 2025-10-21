@@ -3,6 +3,7 @@ package com.example.proyecto.presentation.navigation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.proyecto.domain.usecase.*
+import com.example.proyecto.presentation.admin.AdminViewModel
 import com.example.proyecto.presentation.login.LoginViewModel
 import com.example.proyecto.presentation.dashboard.DashboardViewModel
 import com.example.proyecto.presentation.availability.AvailabilityViewModel
@@ -96,6 +97,26 @@ class ProfileViewModelFactory(
                 getUserReservationsUseCase,
                 cancelReservationUseCase,
                 logoutUseCase
+            ) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+
+class AdminViewModelFactory(
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val getPendingReservationsUseCase: GetPendingReservationsUseCase,
+    private val approveReservationUseCase: ApproveReservationUseCase,
+    private val rejectReservationUseCase: RejectReservationUseCase
+) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(AdminViewModel::class.java)) {
+            return AdminViewModel(
+                getCurrentUserUseCase,
+                getPendingReservationsUseCase,
+                approveReservationUseCase,
+                rejectReservationUseCase
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

@@ -8,6 +8,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+
 import java.util.UUID
 
 class SpaceRepository(
@@ -183,6 +187,85 @@ class SpaceRepository(
             if (reservation != null) {
                 reservationDao.insertReservation(
                     reservation.copy(status = ReservationStatus.CANCELLED.name)
+                )
+            }
+
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    fun getPendingReservations(): Flow<List<Reservation>> {
+        return reservationDao.getUpcomingReservations(
+            Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.toString()
+        ).map { entities ->
+            entities.filter { it.status == ReservationStatus.PENDING.name }
+                .map { it.toDomain() }
+        }
+    }
+
+    suspend fun syncPendingReservations() {
+        try {
+            val snapshot = firestore.collection("reservations")
+                .whereEqualTo("status", ReservationStatus.PENDING.name)
+                .get()
+                .await()
+
+            val reservations = snapshot.documents.mapNotNull { doc ->
+                doc.data?.toReservation()?.toEntity()
+            }
+
+            reservations.forEach { reservation ->
+                reservationDao.insertReservation(reservation)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    suspend fun approveReservation(reservationId: String, approvedBy: String): Result<Unit> {
+        return try {
+            firestore.collection("reservations")
+                .document(reservationId)
+                .update(mapOf(
+                    "status" to ReservationStatus.APPROVED.name,
+                    "approvedBy" to approvedBy
+                ))
+                .await()
+
+            val reservation = reservationDao.getReservationById(reservationId)
+            if (reservation != null) {
+                reservationDao.insertReservation(
+                    reservation.copy(
+                        status = ReservationStatus.APPROVED.name,
+                        approvedBy = approvedBy
+                    )
+                )
+            }
+
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun rejectReservation(reservationId: String, reason: String): Result<Unit> {
+        return try {
+            firestore.collection("reservations")
+                .document(reservationId)
+                .update(mapOf(
+                    "status" to ReservationStatus.REJECTED.name,
+                    "rejectionReason" to reason
+                ))
+                .await()
+
+            val reservation = reservationDao.getReservationById(reservationId)
+            if (reservation != null) {
+                reservationDao.insertReservation(
+                    reservation.copy(
+                        status = ReservationStatus.REJECTED.name,
+                        rejectionReason = reason
+                    )
                 )
             }
 

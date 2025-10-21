@@ -11,6 +11,8 @@ import com.example.proyecto.data.local.AppDatabase
 import com.example.proyecto.data.repository.AuthRepository
 import com.example.proyecto.data.repository.SpaceRepository
 import com.example.proyecto.domain.usecase.*
+import com.example.proyecto.presentation.admin.AdminScreen
+import com.example.proyecto.presentation.admin.AdminViewModel
 import com.example.proyecto.presentation.availability.AvailabilityScreen
 import com.example.proyecto.presentation.availability.AvailabilityViewModel
 import com.example.proyecto.presentation.dashboard.DashboardScreen
@@ -33,6 +35,7 @@ sealed class Screen(val route: String) {
         fun createRoute(spaceId: String) = "reserve/$spaceId"
     }
     object Profile : Screen("profile")
+    object Admin : Screen("admin")
 }
 
 @Composable
@@ -60,6 +63,9 @@ fun AppNavigation(
             createReservationUseCase = CreateReservationUseCase(spaceRepository),
             getUserReservationsUseCase = GetUserReservationsUseCase(spaceRepository),
             cancelReservationUseCase = CancelReservationUseCase(spaceRepository),
+            getPendingReservationsUseCase = GetPendingReservationsUseCase(spaceRepository),
+            approveReservationUseCase = ApproveReservationUseCase(spaceRepository),
+            rejectReservationUseCase = RejectReservationUseCase(spaceRepository),
             validateEmailUseCase = ValidateEmailUseCase(),
             validatePasswordUseCase = ValidatePasswordUseCase(),
             validateTimeSlotUseCase = ValidateTimeSlotUseCase()
@@ -112,6 +118,9 @@ fun AppNavigation(
                 },
                 onProfileClick = {
                     navController.navigate(Screen.Profile.route)
+                },
+                onAdminClick =  {
+                    navController.navigate(Screen.Admin.route)
                 }
             )
         }
@@ -209,6 +218,25 @@ fun AppNavigation(
                 }
             )
         }
+
+        composable(Screen.Admin.route) {
+            val viewModel: AdminViewModel = viewModel(
+                factory = AdminViewModelFactory(
+                    useCases.getCurrentUserUseCase,
+                    useCases.getPendingReservationsUseCase,
+                    useCases.approveReservationUseCase,
+                    useCases.rejectReservationUseCase
+                )
+            )
+
+            val state by viewModel.state.collectAsState()
+
+            AdminScreen(
+                state = state,
+                onEvent = viewModel::onEvent,
+                onBackClick = { navController.popBackStack() }
+            )
+        }
     }
 }
 
@@ -225,6 +253,9 @@ data class UseCases(
     val createReservationUseCase: CreateReservationUseCase,
     val getUserReservationsUseCase: GetUserReservationsUseCase,
     val cancelReservationUseCase: CancelReservationUseCase,
+    val getPendingReservationsUseCase: GetPendingReservationsUseCase,
+    val approveReservationUseCase: ApproveReservationUseCase,
+    val rejectReservationUseCase: RejectReservationUseCase,
     val validateEmailUseCase: ValidateEmailUseCase,
     val validatePasswordUseCase: ValidatePasswordUseCase,
     val validateTimeSlotUseCase: ValidateTimeSlotUseCase

@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.proyecto.R
 import com.example.proyecto.domain.model.SpaceType
+import com.example.proyecto.domain.model.UserRole
 import kotlinx.datetime.Month
 
 
@@ -31,7 +32,8 @@ fun DashboardScreen(
     state: DashboardState,
     onEvent: (DashboardEvent) -> Unit,
     onSpaceClick: (String) -> Unit,
-    onProfileClick: () -> Unit
+    onProfileClick: () -> Unit,
+    onAdminClick: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -54,6 +56,12 @@ fun DashboardScreen(
                     )
                 },
                 actions = {
+                    // Mostrar botón de admin si es administrador
+                    if (state.user?.role == UserRole.ADMIN || state.user?.role == UserRole.STAFF) {
+                        IconButton(onClick = onAdminClick) {
+                            Icon(Icons.Default.AdminPanelSettings, "Admin")
+                        }
+                    }
                     IconButton(onClick = onProfileClick) {
                         Icon(Icons.Default.AccountCircle, "Perfil")
                     }

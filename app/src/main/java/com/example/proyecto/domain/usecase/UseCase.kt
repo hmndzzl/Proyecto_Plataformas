@@ -124,3 +124,26 @@ class ValidateTimeSlotUseCase {
         return timeRegex.matches(startTime) && timeRegex.matches(endTime)
     }
 }
+
+// Admin Use Cases
+class GetPendingReservationsUseCase(private val spaceRepository: SpaceRepository) {
+    suspend fun sync() {
+        spaceRepository.syncPendingReservations()
+    }
+
+    operator fun invoke(): Flow<List<Reservation>> {
+        return spaceRepository.getPendingReservations()
+    }
+}
+
+class ApproveReservationUseCase(private val spaceRepository: SpaceRepository) {
+    suspend operator fun invoke(reservationId: String, approvedBy: String): Result<Unit> {
+        return spaceRepository.approveReservation(reservationId, approvedBy)
+    }
+}
+
+class RejectReservationUseCase(private val spaceRepository: SpaceRepository) {
+    suspend operator fun invoke(reservationId: String, reason: String): Result<Unit> {
+        return spaceRepository.rejectReservation(reservationId, reason)
+    }
+}
