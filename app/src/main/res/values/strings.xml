@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">UVG Espacios</string>
+
+    <!-- Login Screen -->
+    <string name="login_welcome">Bienvenido</string>
+    <string name="login_subtitle">Inicia sesión con tu correo institucional UVG</string>
+    <string name="login_email_hint">Correo UVG</string>
+    <string name="login_password_hint">Contraseña</string>
+    <string name="login_button">Iniciar sesión</string>
+    <string name="login_error">Error al iniciar sesión</string>
+    <string name="login_loading">Iniciando sesión...</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_greeting">Hola, %1$s</string>
+    <string name="dashboard_cancha">Cancha</string>
+    <string name="dashboard_garden">Garden</string>
+    <string name="dashboard_calendar_title">Calendario de un vistazo</string>
+
+    <!-- Availability Screen -->
+    <string name="availability_title">Disponibilidad</string>
+    <string name="availability_available">Disponible</string>
+    <string name="availability_reserved">Reservado</string>
+    <string name="availability_reserved_by">Reservado por: %1$s</string>
+    <string name="availability_reserve_button">Reservar</string>
+    <string name="availability_loading">Cargando disponibilidad...</string>
+    <string name="availability_error">Error al cargar disponibilidad</string>
+    <string name="availability_retry">Reintentar</string>
+
+    <!-- Reserve Form -->
+    <string name="reserve_title">Reservar %1$s</string>
+    <string name="reserve_date_label">Fecha</string>
+    <string name="reserve_time_start_label">Hora de inicio</string>
+    <string name="reserve_time_end_label">Hora de fin</string>
+    <string name="reserve_description_label">Descripción del evento</string>
+    <string name="reserve_description_hint">Ej. Práctica de club de fútbol</string>
+    <string name="reserve_confirm_button">Confirmar reserva</string>
+    <string name="reserve_success_title">Reserva confirmada</string>
+    <string name="reserve_success_message">Tu reserva ha sido enviada para su aprobación. Recibirás una notificación cuando sea revisada por el staff.</string>
+    <string name="reserve_success_button">Entendido</string>
+    <string name="reserve_error">Error al crear reserva</string>
+    <string name="reserve_validation_error">Por favor completa todos los campos</string>
+
+    <!-- Profile Screen -->
+    <string name="profile_title">Perfil</string>
+    <string name="profile_name_label">Nombre</string>
+    <string name="profile_email_label">Correo UVG</string>
+    <string name="profile_history_title">Historial de reservas</string>
+    <string name="profile_no_reservations">No tienes reservas</string>
+    <string name="profile_logout_button">Cerrar sesión</string>
+    <string name="profile_logout_confirm">¿Estás seguro que deseas cerrar sesión?</string>
+    <string name="profile_cancel">Cancelar</string>
+    <string name="profile_confirm">Confirmar</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_profile">Perfil</string>
+    <string name="nav_back">Volver</string>
+
+    <!-- Calendar -->
+    <string name="calendar_monday">L</string>
+    <string name="calendar_tuesday">M</string>
+    <string name="calendar_wednesday">M</string>
+    <string name="calendar_thursday">J</string>
+    <string name="calendar_friday">V</string>
+    <string name="calendar_saturday">S</string>
+    <string name="calendar_sunday">D</string>
+
+    <!-- Time Slots -->
+    <string name="time_slot_format">%1$s - %2$s</string>
+
+    <!-- Error Messages -->
+    <string name="error_network">Error de conexión. Verifica tu internet.</string>
+    <string name="error_authentication">Error de autenticación</string>
+    <string name="error_generic">Ha ocurrido un error</string>
+
+    <!-- Status -->
+    <string name="status_loading">Cargando...</string>
+    <string name="status_empty">No hay datos disponibles</string>
+
+    <!-- Common -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
+    <string name="retry">Reintentar</string>
+    <string name="save">Guardar</string>
+    <string name="delete">Eliminar</string>
+</resources>

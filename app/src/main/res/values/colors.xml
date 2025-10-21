@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- UVG Brand Colors -->
+    <color name="uvg_green">#006837</color>
+    <color name="uvg_green_dark">#00502a</color>
+    <color name="uvg_green_light">#4CAF50</color>
+
+    <color name="uvg_blue">#1a4f8a</color>
+    <color name="uvg_blue_dark">#154270</color>
+    <color name="uvg_blue_light">#2196F3</color>
+
+    <!-- Status Colors -->
+    <color name="status_available">#22c55e</color>
+    <color name="status_available_bg">#dcfce7</color>
+    <color name="status_reserved">#ef4444</color>
+    <color name="status_reserved_bg">#fee2e2</color>
+    <color name="status_pending">#f59e0b</color>
+    <color name="status_pending_bg">#fef3c7</color>
+
+    <!-- Surface Colors - Light Theme -->
+    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_variant_light">#f0f4f8</color>
+    <color name="surface_container_light">#f1f5f9</color>
+    <color name="background_light">#f9fafb</color>
+
+    <!-- Surface Colors - Dark Theme -->
+    <color name="surface_dark">#1E1E1E</color>
+    <color name="surface_variant_dark">#2C2C2C</color>
+    <color name="surface_container_dark">#252525</color>
+    <color name="background_dark">#121212</color>
+
+    <!-- Text Colors - Light Theme -->
+    <color name="text_primary_light">#1f2937</color>
+    <color name="text_secondary_light">#6b7280</color>
+    <color name="text_tertiary_light">#9ca3af</color>
+    <color name="text_disabled_light">#d1d5db</color>
+
+    <!-- Text Colors - Dark Theme -->
+    <color name="text_primary_dark">#f9fafb</color>
+    <color name="text_secondary_dark">#d1d5db</color>
+    <color name="text_tertiary_dark">#9ca3af</color>
+    <color name="text_disabled_dark">#6b7280</color>
+
+    <!-- Border Colors -->
+    <color name="border_light">#e5e7eb</color>
+    <color name="border_dark">#374151</color>
+
+    <!-- Error & Warning -->
+    <color name="error">#dc2626</color>
+    <color name="error_bg">#fee2e2</color>
+    <color name="warning">#f59e0b</color>
+    <color name="warning_bg">#fef3c7</color>
+
+    <!-- Success & Info -->
+    <color name="success">#10b981</color>
+    <color name="success_bg">#d1fae5</color>
+    <color name="info">#3b82f6</color>
+    <color name="info_bg">#dbeafe</color>
+
+    <!-- Overlay -->
+    <color name="overlay_black_50">#80000000</color>
+    <color name="overlay_black_60">#99000000</color>
+    <color name="overlay_black_70">#B3000000</color>
+    <color name="overlay_white_50">#80FFFFFF</color>
+
+    <!-- Shadows -->
+    <color name="shadow_light">#1A000000</color>
+    <color name="shadow_dark">#40000000</color>
+
+    <!-- Common Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- Calendar Colors -->
+    <color name="calendar_inactive">#cbd5e1</color>
+    <color name="calendar_today">#fbbf24</color>
+    <color name="calendar_selected">#1a4f8a</color>
+</resources>

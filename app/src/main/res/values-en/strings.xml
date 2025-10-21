@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">UVG Spaces</string>
+
+    <!-- Login Screen -->
+    <string name="login_welcome">Welcome</string>
+    <string name="login_subtitle">Sign in with your UVG institutional email</string>
+    <string name="login_email_hint">UVG Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_button">Sign In</string>
+    <string name="login_error">Login error</string>
+    <string name="login_loading">Signing in...</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_greeting">Hello, %1$s</string>
+    <string name="dashboard_cancha">Court</string>
+    <string name="dashboard_garden">Garden</string>
+    <string name="dashboard_calendar_title">Calendar at a glance</string>
+
+    <!-- Availability Screen -->
+    <string name="availability_title">Availability</string>
+    <string name="availability_available">Available</string>
+    <string name="availability_reserved">Reserved</string>
+    <string name="availability_reserved_by">Reserved by: %1$s</string>
+    <string name="availability_reserve_button">Reserve</string>
+    <string name="availability_loading">Loading availability...</string>
+    <string name="availability_error">Error loading availability</string>
+    <string name="availability_retry">Retry</string>
+
+    <!-- Reserve Form -->
+    <string name="reserve_title">Reserve %1$s</string>
+    <string name="reserve_date_label">Date</string>
+    <string name="reserve_time_start_label">Start time</string>
+    <string name="reserve_time_end_label">End time</string>
+    <string name="reserve_description_label">Event description</string>
+    <string name="reserve_description_hint">E.g. Soccer club practice</string>
+    <string name="reserve_confirm_button">Confirm reservation</string>
+    <string name="reserve_success_title">Reservation confirmed</string>
+    <string name="reserve_success_message">Your reservation has been sent for approval. You will receive a notification when it is reviewed by staff.</string>
+    <string name="reserve_success_button">Got it</string>
+    <string name="reserve_error">Error creating reservation</string>
+    <string name="reserve_validation_error">Please complete all fields</string>
+
+    <!-- Profile Screen -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_name_label">Name</string>
+    <string name="profile_email_label">UVG Email</string>
+    <string name="profile_history_title">Reservation history</string>
+    <string name="profile_no_reservations">You have no reservations</string>
+    <string name="profile_logout_button">Sign Out</string>
+    <string name="profile_logout_confirm">Are you sure you want to sign out?</string>
+    <string name="profile_cancel">Cancel</string>
+    <string name="profile_confirm">Confirm</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_back">Back</string>
+
+    <!-- Calendar -->
+    <string name="calendar_monday">M</string>
+    <string name="calendar_tuesday">T</string>
+    <string name="calendar_wednesday">W</string>
+    <string name="calendar_thursday">T</string>
+    <string name="calendar_friday">F</string>
+    <string name="calendar_saturday">S</string>
+    <string name="calendar_sunday">S</string>
+
+    <!-- Time Slots -->
+    <string name="time_slot_format">%1$s - %2$s</string>
+
+    <!-- Error Messages -->
+    <string name="error_network">Connection error. Check your internet.</string>
+    <string name="error_authentication">Authentication error</string>
+    <string name="error_generic">An error has occurred</string>
+
+    <!-- Status -->
+    <string name="status_loading">Loading...</string>
+    <string name="status_empty">No data available</string>
+
+    <!-- Common -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="retry">Retry</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+</resources>

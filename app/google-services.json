@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "219972694813",
+    "project_id": "uvg-espacios",
+    "storage_bucket": "uvg-espacios.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219972694813:android:e408e8e2c411c7f64ce7f4",
+        "android_client_info": {
+          "package_name": "com.example.proyecto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcgQ5yyHluhe9B7X-hj8hutv9JxVR8U7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

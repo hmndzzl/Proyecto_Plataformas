@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spacing -->
+    <dimen name="spacing_xs">4dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_medium">16dp</dimen>
+    <dimen name="spacing_large">24dp</dimen>
+    <dimen name="spacing_xl">32dp</dimen>
+    <dimen name="spacing_xxl">48dp</dimen>
+
+    <!-- Card & Container -->
+    <dimen name="card_corner_radius">12dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="container_padding">16dp</dimen>
+
+    <!-- Buttons -->
+    <dimen name="button_height">56dp</dimen>
+    <dimen name="button_corner_radius">12dp</dimen>
+    <dimen name="button_padding_horizontal">24dp</dimen>
+    <dimen name="button_padding_vertical">16dp</dimen>
+
+    <!-- Input Fields -->
+    <dimen name="input_height">56dp</dimen>
+    <dimen name="input_corner_radius">12dp</dimen>
+    <dimen name="input_padding_horizontal">16dp</dimen>
+
+    <!-- Icons -->
+    <dimen name="icon_size_small">24dp</dimen>
+    <dimen name="icon_size_medium">32dp</dimen>
+    <dimen name="icon_size_large">48dp</dimen>
+    <dimen name="icon_size_xl">64dp</dimen>
+
+    <!-- Grid -->
+    <dimen name="grid_spacing">12dp</dimen>
+    <dimen name="grid_padding">16dp</dimen>
+
+    <!-- Calendar -->
+    <dimen name="calendar_day_size">40dp</dimen>
+    <dimen name="calendar_day_corner_radius">8dp</dimen>
+    <dimen name="calendar_padding">16dp</dimen>
+
+    <!-- Reservation Item -->
+    <dimen name="reservation_item_padding">16dp</dimen>
+    <dimen name="reservation_item_corner_radius">12dp</dimen>
+    <dimen name="reservation_status_indicator_size">10dp</dimen>
+
+    <!-- Bottom Navigation -->
+    <dimen name="bottom_nav_height">56dp</dimen>
+    <dimen name="bottom_nav_icon_size">24dp</dimen>
+
+    <!-- Image -->
+    <dimen name="image_corner_radius">12dp</dimen>
+    <dimen name="logo_width">150dp</dimen>
+    <dimen name="logo_height">60dp</dimen>
+
+    <!-- Elevation -->
+    <dimen name="elevation_card">4dp</dimen>
+    <dimen name="elevation_button">2dp</dimen>
+    <dimen name="elevation_app_bar">4dp</dimen>
+
+    <!-- Divider -->
+    <dimen name="divider_height">1dp</dimen>
+
+    <!-- Min Touch Target -->
+    <dimen name="min_touch_target">48dp</dimen>
+</resources>
