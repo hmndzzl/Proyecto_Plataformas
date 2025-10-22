@@ -74,3 +74,7 @@ com.example.proyecto/
 │   │   │     ├── Ui.theme
 │   │   │      
 │   └── MainActivity.kt   
+
+## En caso de que no se vea bien el diagrama:
+<img width="330" height="789" alt="image" src="https://github.com/user-attachments/assets/2c232409-9a2a-44f4-9cf5-db3431cdaf9b" />
+
