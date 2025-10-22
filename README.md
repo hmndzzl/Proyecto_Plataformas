@@ -19,7 +19,7 @@ Este proyecto fue creado con el propósito de ayudar a los estudiantes de la UVG
 - Recursos organizados
 
 ## Link del repo:
-
+https://github.com/hmndzzl/Proyecto_Plataformas
 
 ## link del video demostrativo:
 https://youtu.be/jlatOp7VCkc
