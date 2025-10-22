@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyecto.domain.model.*
 import com.example.proyecto.domain.usecase.*
+import com.example.proyecto.domain.usecase.preferences.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -11,6 +12,8 @@ import kotlinx.coroutines.launch
 data class ProfileState(
     val user: User? = null,
     val reservations: List<Reservation> = emptyList(),
+    val isDarkTheme: Boolean = false, // NUEVO
+    val currentLanguage: String = "es", // NUEVO
     val isLoading: Boolean = false,
     val error: String? = null,
     val showLogoutDialog: Boolean = false,
@@ -25,6 +28,8 @@ sealed interface ProfileEvent {
     object LogoutCancelled : ProfileEvent
     data class ReservationClicked(val reservationId: String) : ProfileEvent
     data class CancelReservation(val reservationId: String) : ProfileEvent
+    data class ThemeChanged(val isDark: Boolean) : ProfileEvent // NUEVO
+    data class LanguageChanged(val languageCode: String) : ProfileEvent // NUEVO
     object ErrorDismissed : ProfileEvent
 }
 
@@ -33,7 +38,11 @@ class ProfileViewModel(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val getUserReservationsUseCase: GetUserReservationsUseCase,
     private val cancelReservationUseCase: CancelReservationUseCase,
-    private val logoutUseCase: LogoutUseCase
+    private val logoutUseCase: LogoutUseCase,
+    private val getThemeUseCase: GetThemeUseCase, // NUEVO
+    private val saveThemeUseCase: SaveThemeUseCase, // NUEVO
+    private val getLanguageUseCase: GetLanguageUseCase, // NUEVO
+    private val saveLanguageUseCase: SaveLanguageUseCase // NUEVO
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ProfileState())
@@ -41,6 +50,7 @@ class ProfileViewModel(
 
     init {
         loadProfile()
+        observePreferences() // NUEVO
     }
 
     fun onEvent(event: ProfileEvent) {
@@ -63,6 +73,14 @@ class ProfileViewModel(
 
             is ProfileEvent.CancelReservation -> {
                 cancelReservation(event.reservationId)
+            }
+
+            is ProfileEvent.ThemeChanged -> { // NUEVO
+                changeTheme(event.isDark)
+            }
+
+            is ProfileEvent.LanguageChanged -> { // NUEVO
+                changeLanguage(event.languageCode)
             }
 
             is ProfileEvent.ErrorDismissed -> {
@@ -110,6 +128,47 @@ class ProfileViewModel(
         viewModelScope.launch {
             getUserReservationsUseCase(userId).collect { reservations ->
                 _state.update { it.copy(reservations = reservations) }
+            }
+        }
+    }
+
+    // NUEVO: Observar preferencias
+    private fun observePreferences() {
+        viewModelScope.launch {
+            getThemeUseCase().collect { isDark ->
+                _state.update { it.copy(isDarkTheme = isDark) }
+            }
+        }
+
+        viewModelScope.launch {
+            getLanguageUseCase().collect { language ->
+                _state.update { it.copy(currentLanguage = language) }
+            }
+        }
+    }
+
+    // NUEVO: Cambiar tema
+    private fun changeTheme(isDark: Boolean) {
+        viewModelScope.launch {
+            try {
+                saveThemeUseCase(isDark)
+            } catch (e: Exception) {
+                _state.update { it.copy(
+                    error = e.message ?: "Error al cambiar tema"
+                ) }
+            }
+        }
+    }
+
+    // NUEVO: Cambiar idioma
+    private fun changeLanguage(languageCode: String) {
+        viewModelScope.launch {
+            try {
+                saveLanguageUseCase(languageCode)
+            } catch (e: Exception) {
+                _state.update { it.copy(
+                    error = e.message ?: "Error al cambiar idioma"
+                ) }
             }
         }
     }

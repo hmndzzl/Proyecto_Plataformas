@@ -9,7 +9,7 @@
     <string name="login_email_hint">UVG Email</string>
     <string name="login_password_hint">Password</string>
     <string name="login_button">Sign In</string>
-    <string name="login_error">Login error</string>
+    <string name="login_error">Error signing in</string>
     <string name="login_loading">Signing in...</string>
 
     <!-- Dashboard -->
@@ -52,6 +52,11 @@
     <string name="profile_logout_confirm">Are you sure you want to sign out?</string>
     <string name="profile_cancel">Cancel</string>
     <string name="profile_confirm">Confirm</string>
+    <string name="profile_settings_title">Settings</string>
+    <string name="profile_theme_label">Dark Theme</string>
+    <string name="profile_language_label">Language</string>
+    <string name="profile_language_spanish">Spanish</string>
+    <string name="profile_language_english">English</string>
 
     <!-- Navigation -->
     <string name="nav_home">Home</string>
@@ -66,14 +71,30 @@
     <string name="calendar_friday">F</string>
     <string name="calendar_saturday">S</string>
     <string name="calendar_sunday">S</string>
+    <string name="calendar_reservations_title">Reservations for %1$s</string>
+    <string name="calendar_no_reservations">No reservations for this day</string>
 
     <!-- Time Slots -->
     <string name="time_slot_format">%1$s - %2$s</string>
 
+    <!-- Reservation Details -->
+    <string name="reservation_details_title">Reservation Details</string>
+    <string name="reservation_details_space">Space</string>
+    <string name="reservation_details_date">Date</string>
+    <string name="reservation_details_time">Time</string>
+    <string name="reservation_details_description">Description</string>
+    <string name="reservation_details_status">Status</string>
+    <string name="reservation_details_user">Reserved by</string>
+    <string name="reservation_status_pending">Pending</string>
+    <string name="reservation_status_approved">Approved</string>
+    <string name="reservation_status_rejected">Rejected</string>
+    <string name="reservation_status_cancelled">Cancelled</string>
+    <string name="reservation_status_completed">Completed</string>
+
     <!-- Error Messages -->
     <string name="error_network">Connection error. Check your internet.</string>
     <string name="error_authentication">Authentication error</string>
-    <string name="error_generic">An error has occurred</string>
+    <string name="error_generic">An error occurred</string>
 
     <!-- Status -->
     <string name="status_loading">Loading...</string>

@@ -82,6 +82,8 @@ dependencies {
 
     // DataStore
     implementation(libs.androidx.datastore.preferences)
+    // DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // Coil for image loading
     implementation(libs.coil.compose)

@@ -14,6 +14,7 @@ data class DashboardState(
     val spaces: List<Space> = emptyList(),
     val currentMonth: LocalDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date,
     val calendarDays: List<CalendarDay> = emptyList(),
+    val monthReservations: List<Reservation> = emptyList(), // NUEVO
     val isLoading: Boolean = false,
     val error: String? = null
 )
@@ -22,6 +23,7 @@ data class DashboardState(
 sealed interface DashboardEvent {
     object LoadData : DashboardEvent
     data class SpaceSelected(val spaceId: String) : DashboardEvent
+    data class DayClicked(val date: LocalDate) : DashboardEvent // NUEVO
     object PreviousMonth : DashboardEvent
     object NextMonth : DashboardEvent
     object ProfileClicked : DashboardEvent
@@ -31,7 +33,8 @@ sealed interface DashboardEvent {
 // ViewModel
 class DashboardViewModel(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
-    private val getSpacesUseCase: GetSpacesUseCase
+    private val getSpacesUseCase: GetSpacesUseCase,
+    private val getReservationsForMonthUseCase: GetReservationsForMonthUseCase // NUEVO
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(DashboardState())
@@ -46,6 +49,9 @@ class DashboardViewModel(
         when (event) {
             is DashboardEvent.LoadData -> loadData()
             is DashboardEvent.SpaceSelected -> {
+                // Navigation handled by UI
+            }
+            is DashboardEvent.DayClicked -> {
                 // Navigation handled by UI
             }
             is DashboardEvent.PreviousMonth -> {
@@ -81,7 +87,7 @@ class DashboardViewModel(
                     isLoading = false
                 ) }
 
-                // Generate calendar
+                // Generate calendar and load reservations
                 updateMonth(_state.value.currentMonth)
 
             } catch (e: Exception) {
@@ -102,14 +108,37 @@ class DashboardViewModel(
     }
 
     private fun updateMonth(newMonth: LocalDate) {
-        val calendarDays = generateCalendarDays(newMonth)
-        _state.update { it.copy(
-            currentMonth = newMonth,
-            calendarDays = calendarDays
-        ) }
+        viewModelScope.launch {
+            try {
+                val firstDay = LocalDate(newMonth.year, newMonth.month, 1)
+                val lastDay = LocalDate(newMonth.year, newMonth.month, newMonth.month.length(isLeapYear(newMonth.year)))
+
+                // Sync reservations for the month
+                getReservationsForMonthUseCase.sync(firstDay, lastDay)
+
+                // Observe reservations
+                observeMonthReservations(firstDay, lastDay, newMonth)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
-    private fun generateCalendarDays(month: LocalDate): List<CalendarDay> {
+    private fun observeMonthReservations(startDate: LocalDate, endDate: LocalDate, month: LocalDate) {
+        viewModelScope.launch {
+            getReservationsForMonthUseCase(startDate, endDate).collect { reservations ->
+                val calendarDays = generateCalendarDays(month, reservations)
+                _state.update { it.copy(
+                    currentMonth = month,
+                    calendarDays = calendarDays,
+                    monthReservations = reservations
+                ) }
+            }
+        }
+    }
+
+    private fun generateCalendarDays(month: LocalDate, reservations: List<Reservation>): List<CalendarDay> {
         val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
         val firstDayOfMonth = LocalDate(month.year, month.month, 1)
         val lastDayOfMonth = LocalDate(month.year, month.month, month.month.length(isLeapYear(month.year)))
@@ -125,6 +154,7 @@ class DashboardViewModel(
         for (i in (prevMonthLastDay.dayOfMonth - startDayOfWeek + 1)..prevMonthLastDay.dayOfMonth) {
             days.add(CalendarDay(
                 date = LocalDate(prevMonth.year, prevMonth.month, i),
+                reservations = emptyList(),
                 hasReservations = false,
                 isAvailable = false,
                 isToday = false,
@@ -132,12 +162,15 @@ class DashboardViewModel(
             ))
         }
 
-        // Add current month days
+        // Add current month days with reservations
         for (day in 1..daysInMonth) {
             val date = LocalDate(month.year, month.month, day)
+            val dayReservations = reservations.filter { it.date == date }
+
             days.add(CalendarDay(
                 date = date,
-                hasReservations = false, // TODO: Check with reservations
+                reservations = dayReservations,
+                hasReservations = dayReservations.isNotEmpty(),
                 isAvailable = true,
                 isToday = date == today,
                 isSelected = false
@@ -150,6 +183,7 @@ class DashboardViewModel(
         for (day in 1..remainingDays) {
             days.add(CalendarDay(
                 date = LocalDate(nextMonth.year, nextMonth.month, day),
+                reservations = emptyList(),
                 hasReservations = false,
                 isAvailable = false,
                 isToday = false,

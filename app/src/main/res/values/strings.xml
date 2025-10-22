@@ -52,6 +52,11 @@
     <string name="profile_logout_confirm">¿Estás seguro que deseas cerrar sesión?</string>
     <string name="profile_cancel">Cancelar</string>
     <string name="profile_confirm">Confirmar</string>
+    <string name="profile_settings_title">Configuración</string>
+    <string name="profile_theme_label">Tema Oscuro</string>
+    <string name="profile_language_label">Idioma</string>
+    <string name="profile_language_spanish">Español</string>
+    <string name="profile_language_english">Inglés</string>
 
     <!-- Navigation -->
     <string name="nav_home">Inicio</string>
@@ -66,9 +71,25 @@
     <string name="calendar_friday">V</string>
     <string name="calendar_saturday">S</string>
     <string name="calendar_sunday">D</string>
+    <string name="calendar_reservations_title">Reservas del %1$s</string>
+    <string name="calendar_no_reservations">No hay reservas para este día</string>
 
     <!-- Time Slots -->
     <string name="time_slot_format">%1$s - %2$s</string>
+
+    <!-- Reservation Details -->
+    <string name="reservation_details_title">Detalles de Reserva</string>
+    <string name="reservation_details_space">Espacio</string>
+    <string name="reservation_details_date">Fecha</string>
+    <string name="reservation_details_time">Horario</string>
+    <string name="reservation_details_description">Descripción</string>
+    <string name="reservation_details_status">Estado</string>
+    <string name="reservation_details_user">Reservado por</string>
+    <string name="reservation_status_pending">Pendiente</string>
+    <string name="reservation_status_approved">Aprobada</string>
+    <string name="reservation_status_rejected">Rechazada</string>
+    <string name="reservation_status_cancelled">Cancelada</string>
+    <string name="reservation_status_completed">Completada</string>
 
     <!-- Error Messages -->
     <string name="error_network">Error de conexión. Verifica tu internet.</string>

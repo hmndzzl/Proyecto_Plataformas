@@ -12,7 +12,9 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
+
 import java.util.UUID
+import kotlin.text.get
 
 class SpaceRepository(
     private val database: AppDatabase,
@@ -274,4 +276,37 @@ class SpaceRepository(
             Result.failure(e)
         }
     }
+
+    fun getReservationsForDateRange(startDate: LocalDate, endDate: LocalDate): Flow<List<Reservation>> {
+        return reservationDao.getUpcomingReservations(startDate.toString())
+            .map { entities ->
+                entities.filter { entity ->
+                    val reservationDate = LocalDate.parse(entity.date)
+                    reservationDate >= startDate && reservationDate <= endDate &&
+                            entity.status == ReservationStatus.APPROVED.name
+                }.map { it.toDomain() }
+            }
+    }
+
+    suspend fun syncReservationsForDateRange(startDate: LocalDate, endDate: LocalDate) {
+        try {
+            val snapshot = firestore.collection("reservations")
+                .whereEqualTo("status", ReservationStatus.APPROVED.name)
+                .whereGreaterThanOrEqualTo("date", startDate.toString())
+                .whereLessThanOrEqualTo("date", endDate.toString())
+                .get()
+                .await()
+
+            val reservations = snapshot.documents.mapNotNull { doc ->
+                doc.data?.toReservation()?.toEntity()
+            }
+
+            reservations.forEach { reservation ->
+                reservationDao.insertReservation(reservation)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 }
+

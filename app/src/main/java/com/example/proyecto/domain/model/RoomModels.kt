@@ -80,9 +80,11 @@ enum class ReservationStatus {
 }
 
 // Calendar Day Model
+// Calendar Day Model
 data class CalendarDay(
     val date: LocalDate,
-    val hasReservations: Boolean = false,
+    val reservations: List<Reservation> = emptyList(),
+    val hasReservations: Boolean = reservations.isNotEmpty(),
     val isAvailable: Boolean = true,
     val isToday: Boolean = false,
     val isSelected: Boolean = false

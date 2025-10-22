@@ -7,22 +7,26 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.proyecto.data.local.datastore.UserPreferencesDataStore
 import com.example.proyecto.data.local.AppDatabase
 import com.example.proyecto.data.repository.AuthRepository
 import com.example.proyecto.data.repository.SpaceRepository
 import com.example.proyecto.domain.usecase.*
+import com.example.proyecto.domain.usecase.preferences.*
 import com.example.proyecto.presentation.admin.AdminScreen
 import com.example.proyecto.presentation.admin.AdminViewModel
 import com.example.proyecto.presentation.availability.AvailabilityScreen
 import com.example.proyecto.presentation.availability.AvailabilityViewModel
 import com.example.proyecto.presentation.dashboard.DashboardScreen
 import com.example.proyecto.presentation.dashboard.DashboardViewModel
+import com.example.proyecto.presentation.day_reservations.DayReservationsScreen
 import com.example.proyecto.presentation.login.LoginScreen
 import com.example.proyecto.presentation.login.LoginViewModel
 import com.example.proyecto.presentation.profile.ProfileScreen
 import com.example.proyecto.presentation.profile.ProfileViewModel
 import com.example.proyecto.presentation.reserve.ReserveScreen
 import com.example.proyecto.presentation.reserve.ReserveViewModel
+import kotlinx.datetime.LocalDate
 
 // Navigation Routes
 sealed class Screen(val route: String) {
@@ -36,11 +40,15 @@ sealed class Screen(val route: String) {
     }
     object Profile : Screen("profile")
     object Admin : Screen("admin")
+    object DayReservations : Screen("day_reservations/{date}") {
+        fun createRoute(date: LocalDate) = "day_reservations/${date}"
+    }
 }
 
 @Composable
 fun AppNavigation(
     database: AppDatabase,
+    preferencesDataStore: UserPreferencesDataStore,
     startDestination: String = Screen.Login.route
 ) {
     val navController = rememberNavController()
@@ -66,9 +74,14 @@ fun AppNavigation(
             getPendingReservationsUseCase = GetPendingReservationsUseCase(spaceRepository),
             approveReservationUseCase = ApproveReservationUseCase(spaceRepository),
             rejectReservationUseCase = RejectReservationUseCase(spaceRepository),
+            getReservationsForMonthUseCase = GetReservationsForMonthUseCase(spaceRepository),
             validateEmailUseCase = ValidateEmailUseCase(),
             validatePasswordUseCase = ValidatePasswordUseCase(),
-            validateTimeSlotUseCase = ValidateTimeSlotUseCase()
+            validateTimeSlotUseCase = ValidateTimeSlotUseCase(),
+            getThemeUseCase = GetThemeUseCase(preferencesDataStore),
+            saveThemeUseCase = SaveThemeUseCase(preferencesDataStore),
+            getLanguageUseCase = GetLanguageUseCase(preferencesDataStore),
+            saveLanguageUseCase = SaveLanguageUseCase(preferencesDataStore)
         )
     }
 
@@ -104,7 +117,8 @@ fun AppNavigation(
             val viewModel: DashboardViewModel = viewModel(
                 factory = DashboardViewModelFactory(
                     useCases.getCurrentUserUseCase,
-                    useCases.getSpacesUseCase
+                    useCases.getSpacesUseCase,
+                    useCases.getReservationsForMonthUseCase
                 )
             )
 
@@ -119,9 +133,45 @@ fun AppNavigation(
                 onProfileClick = {
                     navController.navigate(Screen.Profile.route)
                 },
-                onAdminClick =  {
+                onAdminClick = {
                     navController.navigate(Screen.Admin.route)
+                },
+                onDayClick = { date ->
+                    navController.navigate(Screen.DayReservations.createRoute(date))
                 }
+            )
+        }
+
+        // Day Reservations Screen
+        composable(
+            route = Screen.DayReservations.route,
+            arguments = listOf(
+                navArgument("date") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val dateString = backStackEntry.arguments?.getString("date") ?: ""
+            val date = LocalDate.parse(dateString)
+
+            // Get reservations from dashboard state
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(Screen.Dashboard.route)
+            }
+            val dashboardViewModel: DashboardViewModel = viewModel(
+                viewModelStoreOwner = parentEntry,
+                factory = DashboardViewModelFactory(
+                    useCases.getCurrentUserUseCase,
+                    useCases.getSpacesUseCase,
+                    useCases.getReservationsForMonthUseCase
+                )
+            )
+
+            val dashboardState by dashboardViewModel.state.collectAsState()
+            val dayReservations = dashboardState.monthReservations.filter { it.date == date }
+
+            DayReservationsScreen(
+                date = date,
+                reservations = dayReservations,
+                onBackClick = { navController.popBackStack() }
             )
         }
 
@@ -201,7 +251,11 @@ fun AppNavigation(
                     useCases.getCurrentUserUseCase,
                     useCases.getUserReservationsUseCase,
                     useCases.cancelReservationUseCase,
-                    useCases.logoutUseCase
+                    useCases.logoutUseCase,
+                    useCases.getThemeUseCase,
+                    useCases.saveThemeUseCase,
+                    useCases.getLanguageUseCase,
+                    useCases.saveLanguageUseCase
                 )
             )
 
@@ -219,6 +273,7 @@ fun AppNavigation(
             )
         }
 
+        // Admin Screen
         composable(Screen.Admin.route) {
             val viewModel: AdminViewModel = viewModel(
                 factory = AdminViewModelFactory(
@@ -256,7 +311,12 @@ data class UseCases(
     val getPendingReservationsUseCase: GetPendingReservationsUseCase,
     val approveReservationUseCase: ApproveReservationUseCase,
     val rejectReservationUseCase: RejectReservationUseCase,
+    val getReservationsForMonthUseCase: GetReservationsForMonthUseCase,
     val validateEmailUseCase: ValidateEmailUseCase,
     val validatePasswordUseCase: ValidatePasswordUseCase,
-    val validateTimeSlotUseCase: ValidateTimeSlotUseCase
+    val validateTimeSlotUseCase: ValidateTimeSlotUseCase,
+    val getThemeUseCase: GetThemeUseCase,
+    val saveThemeUseCase: SaveThemeUseCase,
+    val getLanguageUseCase: GetLanguageUseCase,
+    val saveLanguageUseCase: SaveLanguageUseCase
 )

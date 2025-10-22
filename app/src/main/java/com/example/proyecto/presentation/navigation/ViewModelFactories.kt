@@ -3,6 +3,7 @@ package com.example.proyecto.presentation.navigation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.proyecto.domain.usecase.*
+import com.example.proyecto.domain.usecase.preferences.*
 import com.example.proyecto.presentation.admin.AdminViewModel
 import com.example.proyecto.presentation.login.LoginViewModel
 import com.example.proyecto.presentation.dashboard.DashboardViewModel
@@ -29,17 +30,19 @@ class LoginViewModelFactory(
     }
 }
 
-// Dashboard ViewModel Factory
+// Dashboard ViewModel Factory - ACTUALIZADO
 class DashboardViewModelFactory(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
-    private val getSpacesUseCase: GetSpacesUseCase
+    private val getSpacesUseCase: GetSpacesUseCase,
+    private val getReservationsForMonthUseCase: GetReservationsForMonthUseCase
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DashboardViewModel::class.java)) {
             return DashboardViewModel(
                 getCurrentUserUseCase,
-                getSpacesUseCase
+                getSpacesUseCase,
+                getReservationsForMonthUseCase
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
@@ -82,12 +85,16 @@ class ReserveViewModelFactory(
     }
 }
 
-// Profile ViewModel Factory
+// Profile ViewModel Factory - ACTUALIZADO
 class ProfileViewModelFactory(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val getUserReservationsUseCase: GetUserReservationsUseCase,
     private val cancelReservationUseCase: CancelReservationUseCase,
-    private val logoutUseCase: LogoutUseCase
+    private val logoutUseCase: LogoutUseCase,
+    private val getThemeUseCase: GetThemeUseCase,
+    private val saveThemeUseCase: SaveThemeUseCase,
+    private val getLanguageUseCase: GetLanguageUseCase,
+    private val saveLanguageUseCase: SaveLanguageUseCase
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -96,13 +103,18 @@ class ProfileViewModelFactory(
                 getCurrentUserUseCase,
                 getUserReservationsUseCase,
                 cancelReservationUseCase,
-                logoutUseCase
+                logoutUseCase,
+                getThemeUseCase,
+                saveThemeUseCase,
+                getLanguageUseCase,
+                saveLanguageUseCase
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 
+// Admin ViewModel Factory
 class AdminViewModelFactory(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val getPendingReservationsUseCase: GetPendingReservationsUseCase,

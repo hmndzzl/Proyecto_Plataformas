@@ -33,7 +33,8 @@ fun DashboardScreen(
     onEvent: (DashboardEvent) -> Unit,
     onSpaceClick: (String) -> Unit,
     onProfileClick: () -> Unit,
-    onAdminClick: () -> Unit
+    onAdminClick: () -> Unit,
+    onDayClick: (kotlinx.datetime.LocalDate) -> Unit // NUEVO
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -110,7 +111,8 @@ fun DashboardScreen(
                     currentMonth = state.currentMonth,
                     calendarDays = state.calendarDays,
                     onPreviousMonth = { onEvent(DashboardEvent.PreviousMonth) },
-                    onNextMonth = { onEvent(DashboardEvent.NextMonth) }
+                    onNextMonth = { onEvent(DashboardEvent.NextMonth) },
+                    onDayClick = onDayClick // NUEVO
                 )
             }
         }
@@ -167,7 +169,8 @@ fun CalendarSection(
     currentMonth: kotlinx.datetime.LocalDate,
     calendarDays: List<com.example.proyecto.domain.model.CalendarDay>,
     onPreviousMonth: () -> Unit,
-    onNextMonth: () -> Unit
+    onNextMonth: () -> Unit,
+    onDayClick: (kotlinx.datetime.LocalDate) -> Unit // NUEVO
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -238,7 +241,10 @@ fun CalendarSection(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 items(calendarDays) { day ->
-                    CalendarDayItem(day)
+                    CalendarDayItem(
+                        day = day,
+                        onClick = { onDayClick(day.date) } // NUEVO
+                    )
                 }
             }
         }
@@ -246,7 +252,10 @@ fun CalendarSection(
 }
 
 @Composable
-fun CalendarDayItem(day: com.example.proyecto.domain.model.CalendarDay) {
+fun CalendarDayItem(
+    day: com.example.proyecto.domain.model.CalendarDay,
+    onClick: () -> Unit // NUEVO
+) {
     val backgroundColor = when {
         !day.isAvailable -> Color.Transparent
         day.isToday -> colorResource(R.color.calendar_today)
@@ -258,17 +267,32 @@ fun CalendarDayItem(day: com.example.proyecto.domain.model.CalendarDay) {
         modifier = Modifier
             .aspectRatio(1f)
             .clip(RoundedCornerShape(dimensionResource(R.dimen.calendar_day_corner_radius)))
-            .background(backgroundColor),
+            .background(backgroundColor)
+            .clickable(enabled = day.hasReservations) { onClick() }, // NUEVO: Solo clickeable si tiene reservas
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = day.date.dayOfMonth.toString(),
-            style = MaterialTheme.typography.bodySmall,
-            color = if (day.isAvailable)
-                MaterialTheme.colorScheme.onSurface
-            else
-                colorResource(R.color.calendar_inactive)
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = day.date.dayOfMonth.toString(),
+                style = MaterialTheme.typography.bodySmall,
+                color = if (day.isAvailable)
+                    MaterialTheme.colorScheme.onSurface
+                else
+                    colorResource(R.color.calendar_inactive)
+            )
+
+            // NUEVO: Mostrar indicador de cantidad de reservas
+            if (day.hasReservations) {
+                Text(
+                    text = "•",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = colorResource(R.color.status_reserved)
+                )
+            }
+        }
     }
 }
 

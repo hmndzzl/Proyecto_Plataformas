@@ -113,6 +113,108 @@ fun ProfileScreen(
                     )
                 }
 
+                // NUEVO: Settings Section
+                item {
+                    Text(
+                        text = stringResource(R.string.profile_settings_title),
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_medium))
+                    )
+                }
+
+                // NUEVO: Theme Setting
+                item {
+                    SettingsCard {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(dimensionResource(R.dimen.spacing_medium)),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_medium)),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    if (state.isDarkTheme) Icons.Default.DarkMode else Icons.Default.LightMode,
+                                    contentDescription = null,
+                                    tint = colorResource(R.color.uvg_green)
+                                )
+                                Text(
+                                    text = stringResource(R.string.profile_theme_label),
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                            }
+
+                            Switch(
+                                checked = state.isDarkTheme,
+                                onCheckedChange = { onEvent(ProfileEvent.ThemeChanged(it)) },
+                                colors = SwitchDefaults.colors(
+                                    checkedThumbColor = colorResource(R.color.uvg_green),
+                                    checkedTrackColor = colorResource(R.color.uvg_green).copy(alpha = 0.5f)
+                                )
+                            )
+                        }
+                    }
+                }
+
+                // NUEVO: Language Setting
+                item {
+                    SettingsCard {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(dimensionResource(R.dimen.spacing_medium))
+                        ) {
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_medium)),
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_small))
+                            ) {
+                                Icon(
+                                    Icons.Default.Language,
+                                    contentDescription = null,
+                                    tint = colorResource(R.color.uvg_green)
+                                )
+                                Text(
+                                    text = stringResource(R.string.profile_language_label),
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                            }
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small))
+                            ) {
+                                // Spanish Button
+                                FilterChip(
+                                    selected = state.currentLanguage == "es",
+                                    onClick = { onEvent(ProfileEvent.LanguageChanged("es")) },
+                                    label = { Text(stringResource(R.string.profile_language_spanish)) },
+                                    modifier = Modifier.weight(1f),
+                                    colors = FilterChipDefaults.filterChipColors(
+                                        selectedContainerColor = colorResource(R.color.uvg_green),
+                                        selectedLabelColor = MaterialTheme.colorScheme.surface
+                                    )
+                                )
+
+                                // English Button
+                                FilterChip(
+                                    selected = state.currentLanguage == "en",
+                                    onClick = { onEvent(ProfileEvent.LanguageChanged("en")) },
+                                    label = { Text(stringResource(R.string.profile_language_english)) },
+                                    modifier = Modifier.weight(1f),
+                                    colors = FilterChipDefaults.filterChipColors(
+                                        selectedContainerColor = colorResource(R.color.uvg_green),
+                                        selectedLabelColor = MaterialTheme.colorScheme.surface
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+
                 // Reservations Section
                 item {
                     Text(
@@ -178,6 +280,19 @@ fun ProfileScreen(
                 }
             }
         }
+    }
+}
+
+// NUEVO: Settings Card Component
+@Composable
+fun SettingsCard(content: @Composable () -> Unit) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = colorResource(R.color.surface_container_light)
+        )
+    ) {
+        content()
     }
 }
 
@@ -300,11 +415,11 @@ fun ReservationCard(
                 ) {
                     Text(
                         text = when (reservation.status) {
-                            ReservationStatus.PENDING -> "Pendiente"
-                            ReservationStatus.APPROVED -> "Aprobada"
-                            ReservationStatus.REJECTED -> "Rechazada"
-                            ReservationStatus.CANCELLED -> "Cancelada"
-                            ReservationStatus.COMPLETED -> "Completada"
+                            ReservationStatus.PENDING -> stringResource(R.string.reservation_status_pending)
+                            ReservationStatus.APPROVED -> stringResource(R.string.reservation_status_approved)
+                            ReservationStatus.REJECTED -> stringResource(R.string.reservation_status_rejected)
+                            ReservationStatus.CANCELLED -> stringResource(R.string.reservation_status_cancelled)
+                            ReservationStatus.COMPLETED -> stringResource(R.string.reservation_status_completed)
                         },
                         modifier = Modifier.padding(
                             horizontal = dimensionResource(R.dimen.spacing_small),
