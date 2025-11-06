@@ -34,7 +34,7 @@ fun DashboardScreen(
     onSpaceClick: (String) -> Unit,
     onProfileClick: () -> Unit,
     onAdminClick: () -> Unit,
-    onDayClick: (kotlinx.datetime.LocalDate) -> Unit // NUEVO
+    onDayClick: (kotlinx.datetime.LocalDate) -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -112,7 +112,7 @@ fun DashboardScreen(
                     calendarDays = state.calendarDays,
                     onPreviousMonth = { onEvent(DashboardEvent.PreviousMonth) },
                     onNextMonth = { onEvent(DashboardEvent.NextMonth) },
-                    onDayClick = onDayClick // NUEVO
+                    onDayClick = onDayClick
                 )
             }
         }
@@ -170,12 +170,12 @@ fun CalendarSection(
     calendarDays: List<com.example.proyecto.domain.model.CalendarDay>,
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
-    onDayClick: (kotlinx.datetime.LocalDate) -> Unit // NUEVO
+    onDayClick: (kotlinx.datetime.LocalDate) -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(R.color.surface_variant_light)
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
         Column(
@@ -254,13 +254,13 @@ fun CalendarSection(
 @Composable
 fun CalendarDayItem(
     day: com.example.proyecto.domain.model.CalendarDay,
-    onClick: () -> Unit // NUEVO
+    onClick: () -> Unit
 ) {
     val backgroundColor = when {
         !day.isAvailable -> Color.Transparent
         day.isToday -> colorResource(R.color.calendar_today)
-        day.hasReservations -> colorResource(R.color.status_reserved_bg)
-        else -> colorResource(R.color.status_available_bg)
+        day.hasReservations -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.3f)
+        else -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
     }
 
     Box(
@@ -268,7 +268,7 @@ fun CalendarDayItem(
             .aspectRatio(1f)
             .clip(RoundedCornerShape(dimensionResource(R.dimen.calendar_day_corner_radius)))
             .background(backgroundColor)
-            .clickable(enabled = day.hasReservations) { onClick() }, // NUEVO: Solo clickeable si tiene reservas
+            .clickable(enabled = day.hasReservations) { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -281,15 +281,14 @@ fun CalendarDayItem(
                 color = if (day.isAvailable)
                     MaterialTheme.colorScheme.onSurface
                 else
-                    colorResource(R.color.calendar_inactive)
+                    MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
             )
 
-            // NUEVO: Mostrar indicador de cantidad de reservas
             if (day.hasReservations) {
                 Text(
                     text = "•",
                     style = MaterialTheme.typography.labelSmall,
-                    color = colorResource(R.color.status_reserved)
+                    color = MaterialTheme.colorScheme.error
                 )
             }
         }

@@ -137,7 +137,7 @@ fun DateNavigator(
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = colorResource(R.color.surface_variant_light)
+        color = MaterialTheme.colorScheme.surfaceVariant
     ) {
         Row(
             modifier = Modifier
@@ -168,7 +168,7 @@ fun TimeSlotItem(slot: TimeSlot) {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(dimensionResource(R.dimen.reservation_item_corner_radius)),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(R.color.surface_container_light)
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
         Row(
@@ -224,7 +224,7 @@ fun TimeSlotItem(slot: TimeSlot) {
                     SlotStatus.AVAILABLE -> colorResource(R.color.status_available_bg)
                     SlotStatus.RESERVED -> colorResource(R.color.status_reserved_bg)
                     SlotStatus.PENDING_APPROVAL -> colorResource(R.color.status_pending_bg)
-                    SlotStatus.BLOCKED -> colorResource(R.color.surface_variant_light)
+                    SlotStatus.BLOCKED -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
                 }
             ) {
                 Text(
@@ -243,7 +243,7 @@ fun TimeSlotItem(slot: TimeSlot) {
                         SlotStatus.AVAILABLE -> colorResource(R.color.status_available)
                         SlotStatus.RESERVED -> colorResource(R.color.status_reserved)
                         SlotStatus.PENDING_APPROVAL -> colorResource(R.color.status_pending)
-                        SlotStatus.BLOCKED -> colorResource(R.color.text_secondary_light)
+                        SlotStatus.BLOCKED -> MaterialTheme.colorScheme.onSurfaceVariant
                     }
                 )
             }

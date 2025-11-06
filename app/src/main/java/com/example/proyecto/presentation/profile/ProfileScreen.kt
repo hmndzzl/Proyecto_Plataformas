@@ -51,7 +51,7 @@ fun ProfileScreen(
                 Icon(
                     Icons.Default.Logout,
                     contentDescription = null,
-                    tint = colorResource(R.color.warning)
+                    tint = colorResource(R.color.error)
                 )
             },
             title = { Text(stringResource(R.string.profile_logout_button)) },
@@ -113,7 +113,6 @@ fun ProfileScreen(
                     )
                 }
 
-                // NUEVO: Settings Section
                 item {
                     Text(
                         text = stringResource(R.string.profile_settings_title),
@@ -122,7 +121,6 @@ fun ProfileScreen(
                     )
                 }
 
-                // NUEVO: Theme Setting
                 item {
                     SettingsCard {
                         Row(
@@ -159,7 +157,6 @@ fun ProfileScreen(
                     }
                 }
 
-                // NUEVO: Language Setting
                 item {
                     SettingsCard {
                         Column(
@@ -229,7 +226,7 @@ fun ProfileScreen(
                         Card(
                             modifier = Modifier.fillMaxWidth(),
                             colors = CardDefaults.cardColors(
-                                containerColor = colorResource(R.color.surface_container_light)
+                                containerColor = MaterialTheme.colorScheme.surfaceVariant
                             )
                         ) {
                             Box(
@@ -283,13 +280,12 @@ fun ProfileScreen(
     }
 }
 
-// NUEVO: Settings Card Component
 @Composable
 fun SettingsCard(content: @Composable () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(R.color.surface_container_light)
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
         content()
@@ -371,7 +367,7 @@ fun ReservationCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(R.color.surface_container_light)
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
         Column(
@@ -409,7 +405,7 @@ fun ReservationCard(
                         ReservationStatus.PENDING -> colorResource(R.color.status_pending_bg)
                         ReservationStatus.APPROVED -> colorResource(R.color.status_available_bg)
                         ReservationStatus.REJECTED -> colorResource(R.color.status_reserved_bg)
-                        ReservationStatus.CANCELLED -> colorResource(R.color.surface_variant_light)
+                        ReservationStatus.CANCELLED -> MaterialTheme.colorScheme.surfaceVariant
                         ReservationStatus.COMPLETED -> colorResource(R.color.info_bg)
                     }
                 ) {
@@ -430,7 +426,7 @@ fun ReservationCard(
                             ReservationStatus.PENDING -> colorResource(R.color.status_pending)
                             ReservationStatus.APPROVED -> colorResource(R.color.status_available)
                             ReservationStatus.REJECTED -> colorResource(R.color.status_reserved)
-                            ReservationStatus.CANCELLED -> colorResource(R.color.text_secondary_light)
+                            ReservationStatus.CANCELLED -> MaterialTheme.colorScheme.onSurfaceVariant
                             ReservationStatus.COMPLETED -> colorResource(R.color.info)
                         }
                     )

@@ -94,7 +94,7 @@ fun DayReservationCard(reservation: Reservation) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(R.color.surface_container_light)
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
         Column(

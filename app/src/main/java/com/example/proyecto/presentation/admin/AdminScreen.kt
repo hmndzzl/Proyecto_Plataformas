@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.proyecto.R
 import com.example.proyecto.domain.model.Reservation
@@ -172,7 +171,7 @@ fun AdminScreen(
                         Card(
                             modifier = Modifier.fillMaxWidth(),
                             colors = CardDefaults.cardColors(
-                                containerColor = colorResource(R.color.surface_container_light)
+                                containerColor = MaterialTheme.colorScheme.surfaceVariant
                             )
                         ) {
                             Box(
@@ -296,7 +295,7 @@ fun AdminReservationCard(
             containerColor = if (isSelected) {
                 colorResource(R.color.uvg_green).copy(alpha = 0.1f)
             } else {
-                colorResource(R.color.surface_container_light)
+                MaterialTheme.colorScheme.surfaceVariant
             }
         ),
         border = if (isSelected) {

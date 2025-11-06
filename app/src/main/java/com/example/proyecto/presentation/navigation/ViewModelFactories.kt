@@ -30,7 +30,7 @@ class LoginViewModelFactory(
     }
 }
 
-// Dashboard ViewModel Factory - ACTUALIZADO
+// Dashboard ViewModel Factory
 class DashboardViewModelFactory(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val getSpacesUseCase: GetSpacesUseCase,
@@ -85,7 +85,7 @@ class ReserveViewModelFactory(
     }
 }
 
-// Profile ViewModel Factory - ACTUALIZADO
+// Profile ViewModel Factory
 class ProfileViewModelFactory(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val getUserReservationsUseCase: GetUserReservationsUseCase,
