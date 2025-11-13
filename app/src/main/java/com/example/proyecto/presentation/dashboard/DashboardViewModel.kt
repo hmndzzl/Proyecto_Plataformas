@@ -6,6 +6,7 @@ import com.example.proyecto.domain.model.*
 import com.example.proyecto.domain.usecase.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 import kotlinx.datetime.*
 
 // State
@@ -43,6 +44,7 @@ class DashboardViewModel(
     init {
         loadData()
         observeSpaces()
+        startAutoSync()
     }
 
     fun onEvent(event: DashboardEvent) {
@@ -134,6 +136,25 @@ class DashboardViewModel(
                     calendarDays = calendarDays,
                     monthReservations = reservations
                 ) }
+            }
+        }
+    }
+
+    // Sincronización automática cada 15 segundos
+    private fun startAutoSync() {
+        viewModelScope.launch {
+            while (true) {
+                delay(15_000) // 15 segundos
+                try {
+                    val currentMonth = _state.value.currentMonth
+                    val firstDay = LocalDate(currentMonth.year, currentMonth.month, 1)
+                    val lastDay = LocalDate(currentMonth.year, currentMonth.month, currentMonth.month.length(isLeapYear(currentMonth.year)))
+
+                    println("DEBUG Dashboard: Auto-sync de reservas...")
+                    getReservationsForMonthUseCase.sync(firstDay, lastDay)
+                } catch (e: Exception) {
+                    println("ERROR Dashboard: Auto-sync falló: ${e.message}")
+                }
             }
         }
     }

@@ -80,8 +80,11 @@ class ReserveViewModel(
             _state.update { it.copy(isLoading = true) }
 
             try {
+                println("DEBUG Reserve: Inicializando con spaceId=$spaceId")
                 val space = getSpaceByIdUseCase(spaceId)
                 val user = getCurrentUserUseCase()
+
+                println("DEBUG Reserve: Space=${space?.name}, User=${user?.name}")
 
                 if (space == null) {
                     _state.update { it.copy(
@@ -106,6 +109,8 @@ class ReserveViewModel(
                 ) }
 
             } catch (e: Exception) {
+                println("ERROR Reserve Initialize: ${e.message}")
+                e.printStackTrace()
                 _state.update { it.copy(
                     isLoading = false,
                     error = e.message ?: "Error al cargar datos"
@@ -117,18 +122,25 @@ class ReserveViewModel(
     private fun confirmReservation() {
         val currentState = _state.value
 
+        println("DEBUG Reserve: Confirmando reserva...")
+        println("DEBUG Reserve: startTime=${currentState.startTime}, endTime=${currentState.endTime}")
+        println("DEBUG Reserve: description='${currentState.description}'")
+
         // Validation
         if (currentState.startTime == null) {
+            println("DEBUG Reserve: Error - No start time")
             _state.update { it.copy(error = "Seleccione hora de inicio") }
             return
         }
 
         if (currentState.endTime == null) {
+            println("DEBUG Reserve: Error - No end time")
             _state.update { it.copy(error = "Seleccione hora de fin") }
             return
         }
 
         if (currentState.description.isBlank()) {
+            println("DEBUG Reserve: Error - No description")
             _state.update { it.copy(error = "Ingrese una descripción") }
             return
         }
@@ -137,6 +149,7 @@ class ReserveViewModel(
         val user = currentState.user
 
         if (space == null || user == null) {
+            println("DEBUG Reserve: Error - Missing space or user")
             _state.update { it.copy(error = "Datos incompletos") }
             return
         }
@@ -144,27 +157,43 @@ class ReserveViewModel(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
 
-            val request = CreateReservationRequest(
-                spaceId = space.id,
-                date = currentState.date,
-                startTime = currentState.startTime!!,
-                endTime = currentState.endTime!!,
-                description = currentState.description
-            )
+            try {
+                println("DEBUG Reserve: Creando request...")
 
-            createReservationUseCase(request, user)
-                .onSuccess {
-                    _state.update { it.copy(
-                        isLoading = false,
-                        isReserveSuccessful = true
-                    ) }
-                }
-                .onFailure { exception ->
-                    _state.update { it.copy(
-                        isLoading = false,
-                        error = exception.message ?: "Error al crear reserva"
-                    ) }
-                }
+                val request = CreateReservationRequest(
+                    spaceId = space.id,
+                    date = currentState.date,
+                    startTime = currentState.startTime!!,
+                    endTime = currentState.endTime!!,
+                    description = currentState.description
+                )
+
+                println("DEBUG Reserve: Llamando a createReservationUseCase...")
+
+                createReservationUseCase(request, user)
+                    .onSuccess { reservationId ->
+                        println("DEBUG Reserve: ✅ Reserva creada exitosamente: $reservationId")
+                        _state.update { it.copy(
+                            isLoading = false,
+                            isReserveSuccessful = true
+                        ) }
+                    }
+                    .onFailure { exception ->
+                        println("ERROR Reserve: ❌ Error al crear reserva: ${exception.message}")
+                        exception.printStackTrace()
+                        _state.update { it.copy(
+                            isLoading = false,
+                            error = exception.message ?: "Error al crear reserva"
+                        ) }
+                    }
+            } catch (e: Exception) {
+                println("ERROR Reserve: ❌ Excepción inesperada: ${e.message}")
+                e.printStackTrace()
+                _state.update { it.copy(
+                    isLoading = false,
+                    error = e.message ?: "Error inesperado"
+                ) }
+            }
         }
     }
 }

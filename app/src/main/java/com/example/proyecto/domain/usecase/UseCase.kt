@@ -75,13 +75,29 @@ class CreateReservationUseCase(private val spaceRepository: SpaceRepository) {
         request: CreateReservationRequest,
         user: User
     ): Result<String> {
-        // Validation
+        // Validación 1: Hora de inicio debe ser menor a hora de fin
         if (request.startTime >= request.endTime) {
             return Result.failure(Exception("La hora de inicio debe ser menor a la hora de fin"))
         }
-
+        // Validación 2: Descripción no puede estar vacía
         if (request.description.isBlank()) {
             return Result.failure(Exception("Debe proporcionar una descripción"))
+        }
+
+        // Validación 3: Debe reservar al menos 1 hora
+        val duration = request.endTime.hour - request.startTime.hour
+        if (duration < 1) {
+            return Result.failure(Exception("Debe reservar al menos 1 hora"))
+        }
+
+        // Validación 4: Horario permitido (7:00 AM - 9:00 PM)
+        if (request.startTime.hour < 7 || request.endTime.hour > 21) {
+            return Result.failure(Exception("El horario permitido es de 7:00 AM a 9:00 PM"))
+        }
+
+        // Validación 5: No puede reservar más de 4 horas continuas
+        if (duration > 2) {
+            return Result.failure(Exception("No puede reservar más de 2 horas continuas"))
         }
 
         return spaceRepository.createReservation(request, user)

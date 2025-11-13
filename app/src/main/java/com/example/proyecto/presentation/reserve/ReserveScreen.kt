@@ -34,14 +34,18 @@ fun ReserveScreen(
 
     LaunchedEffect(state.isReserveSuccessful) {
         if (state.isReserveSuccessful) {
-            onReserveSuccess()
+            // Esperar un momento para mostrar el diálogo
+            kotlinx.coroutines.delay(100)
         }
     }
 
     // Success Dialog
     if (state.isReserveSuccessful) {
         AlertDialog(
-            onDismissRequest = { onEvent(ReserveEvent.SuccessDismissed) },
+            onDismissRequest = {
+                onEvent(ReserveEvent.SuccessDismissed)
+                onReserveSuccess()
+            },
             icon = {
                 Icon(
                     Icons.Default.CheckCircle,
@@ -52,7 +56,12 @@ fun ReserveScreen(
             title = { Text(stringResource(R.string.reserve_success_title)) },
             text = { Text(stringResource(R.string.reserve_success_message)) },
             confirmButton = {
-                Button(onClick = { onEvent(ReserveEvent.SuccessDismissed) }) {
+                Button(
+                    onClick = {
+                        onEvent(ReserveEvent.SuccessDismissed)
+                        onReserveSuccess()
+                    }
+                ) {
                     Text(stringResource(R.string.reserve_success_button))
                 }
             }

@@ -6,6 +6,7 @@ import com.example.proyecto.domain.model.*
 import com.example.proyecto.domain.usecase.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 import kotlinx.datetime.*
 
 // State
@@ -42,6 +43,7 @@ class AvailabilityViewModel(
             is AvailabilityEvent.LoadAvailability -> {
                 currentSpaceId = event.spaceId
                 loadAvailability(event.spaceId, _state.value.currentDate)
+                startAutoSync(event.spaceId)
             }
 
             is AvailabilityEvent.PreviousDay -> {
@@ -113,5 +115,26 @@ class AvailabilityViewModel(
         val spaceId = currentSpaceId ?: return
         _state.update { it.copy(currentDate = newDate) }
         loadAvailability(spaceId, newDate)
+    }
+
+    // Sincronización automática cada 10 segundos
+    private fun startAutoSync(spaceId: String) {
+        viewModelScope.launch {
+            while (true) {
+                delay(10_000) // 10 segundos
+                try {
+                    val currentDate = _state.value.currentDate
+                    println("DEBUG: Auto-sync de slots...")
+                    getTimeSlotsUseCase.sync(spaceId, currentDate)
+                } catch (e: Exception) {
+                    println("ERROR: Auto-sync falló: ${e.message}")
+                }
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        println("DEBUG: AvailabilityViewModel cleared")
     }
 }

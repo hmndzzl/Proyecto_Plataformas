@@ -2,28 +2,55 @@
   <dictionary name="project">
     <words>
       <w>abril</w>
+      <w>administración</w>
+      <w>aprobar</w>
+      <w>autenticado</w>
+      <w>bloqueado</w>
       <w>botón</w>
+      <w>cambiar</w>
       <w>cancelar</w>
+      <w>caracteres</w>
       <w>cargar</w>
       <w>cerrar</w>
+      <w>clickeable</w>
+      <w>contraseña</w>
+      <w>crear</w>
       <w>datos</w>
+      <w>deseas</w>
       <w>diciembre</w>
       <w>disponibilidad</w>
       <w>encontrado</w>
       <w>enero</w>
       <w>espacio</w>
       <w>espacios</w>
+      <w>estás</w>
       <w>febrero</w>
+      <w>ingresa</w>
+      <w>iniciar</w>
+      <w>inválido</w>
       <w>junio</w>
       <w>marzo</w>
+      <w>menos</w>
       <w>mostrar</w>
       <w>noviembre</w>
       <w>octubre</w>
+      <w>ocultar</w>
+      <w>pendiente</w>
+      <w>pendientes</w>
+      <w>permisos</w>
       <w>proyecto</w>
+      <w>rechazar</w>
+      <w>rechazo</w>
       <w>reserva</w>
+      <w>reservas</w>
+      <w>seguro</w>
       <w>septiembre</w>
       <w>sesión</w>
+      <w>siguiente</w>
       <w>snackbar</w>
+      <w>tener</w>
+      <w>tiene</w>
+      <w>tienes</w>
       <w>usar</w>
       <w>usuario</w>
     </words>

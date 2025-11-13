@@ -11,10 +11,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-
-
 import java.util.UUID
-import kotlin.text.get
 
 class SpaceRepository(
     private val database: AppDatabase,
@@ -28,16 +25,20 @@ class SpaceRepository(
     // Spaces
     suspend fun syncSpaces() {
         try {
+            spaceDao.clearAll()
+
             val snapshot = firestore.collection("spaces")
                 .whereEqualTo("isActive", true)
                 .get()
                 .await()
 
-            val spaces = snapshot.documents.mapNotNull { doc ->
-                doc.data?.toSpace()?.toEntity()
-            }
+            val spaces = snapshot.documents
+                .mapNotNull { doc -> doc.data?.toSpace()?.toEntity() }
+                .distinctBy { it.id } // Eliminar duplicados
+                .filter { it.id.isNotBlank() } // Filtrar IDs vacíos
 
             spaceDao.insertSpaces(spaces)
+
         } catch (e: Exception) {
             // Si falla, usa caché
             e.printStackTrace()
@@ -73,23 +74,122 @@ class SpaceRepository(
     // Time Slots
     suspend fun syncTimeSlots(spaceId: String, date: LocalDate) {
         try {
-            val snapshot = firestore.collection("time_slots")
+            println("DEBUG: Sincronizando slots para space=$spaceId, date=$date")
+
+            // Obtener slots base de Firestore (configuración del espacio)
+            val slotsSnapshot = firestore.collection("time_slots")
                 .whereEqualTo("spaceId", spaceId)
                 .whereEqualTo("date", date.toString())
                 .get()
                 .await()
 
-            val slots = snapshot.documents.mapNotNull { doc ->
-                doc.data?.toTimeSlot()?.toEntity()
+            println("DEBUG: Slots encontrados en Firestore: ${slotsSnapshot.documents.size}")
+
+            // Obtener reservas aprobadas para este día
+            val reservationsSnapshot = firestore.collection("reservations")
+                .whereEqualTo("spaceId", spaceId)
+                .whereEqualTo("date", date.toString())
+                .whereIn("status", listOf("APPROVED", "PENDING"))
+                .get()
+                .await()
+
+            println("DEBUG: Reservas encontradas: ${reservationsSnapshot.documents.size}")
+
+            // Crear mapa de slots ocupados
+            val reservedSlots = reservationsSnapshot.documents.mapNotNull { doc ->
+                doc.data?.toReservation()
             }
 
-            // Clear old slots for this date and insert new ones
+            // Generar slots con estado actualizado
+            val slots = if (slotsSnapshot.documents.isEmpty()) {
+                // Si no hay slots configurados, generar slots por defecto (8:00 - 18:00)
+                generateDefaultSlots(spaceId, date, reservedSlots)
+            } else {
+                // Si hay slots configurados, actualizarlos con las reservas
+                slotsSnapshot.documents.mapNotNull { doc ->
+                    val slotData = doc.data
+                    if (slotData != null) {
+                        val slot = slotData.toTimeSlot()
+                        // Verificar si este slot está reservado
+                        val reservation = reservedSlots.find { res ->
+                            res.startTime == slot.startTime && res.endTime == slot.endTime
+                        }
+
+                        if (reservation != null) {
+                            // Actualizar slot con información de reserva
+                            slot.copy(
+                                status = if (reservation.status == ReservationStatus.APPROVED) {
+                                    SlotStatus.RESERVED
+                                } else {
+                                    SlotStatus.PENDING_APPROVAL
+                                },
+                                reservedBy = reservation.userId,
+                                reservedByName = reservation.userName,
+                                description = reservation.description
+                            )
+                        } else {
+                            slot
+                        }
+                    } else null
+                }
+            }
+
+            println("DEBUG: Slots procesados: ${slots.size}")
+            slots.forEach { slot ->
+                println("DEBUG: Slot ${slot.startTime}-${slot.endTime}: ${slot.status}, reservedBy=${slot.reservedByName}")
+            }
+
+            // Guardar en base de datos local
             timeSlotDao.deleteSlotsBySpaceAndDate(spaceId, date.toString())
-            timeSlotDao.insertTimeSlots(slots)
+            timeSlotDao.insertTimeSlots(slots.map { it.toEntity() })
         } catch (e: Exception) {
+            println("ERROR: Sincronizando slots: ${e.message}")
             e.printStackTrace()
         }
     }
+
+    private fun generateDefaultSlots(
+        spaceId: String,
+        date: LocalDate,
+        reservations: List<Reservation>
+    ): List<TimeSlot> {
+        val slots = mutableListOf<TimeSlot>()
+
+        // Generar slots de 7:00 a 21:00 (cada 1 hora)
+        for (hour in 7..20) {
+            val startTime = kotlinx.datetime.LocalTime(hour, 0)
+            val endTime = kotlinx.datetime.LocalTime(hour + 1, 0)
+
+            val reservation = reservations.find { res ->
+                (res.startTime >= startTime && res.startTime < endTime) ||
+                        (res.endTime > startTime && res.endTime <= endTime) ||
+                        (res.startTime <= startTime && res.endTime >= endTime)
+            }
+
+            slots.add(TimeSlot(
+                id = "$spaceId-$date-$hour",
+                spaceId = spaceId,
+                date = date,
+                startTime = startTime,
+                endTime = endTime,
+                status = if (reservation != null) {
+                    if (reservation.status == ReservationStatus.APPROVED) {
+                        SlotStatus.RESERVED
+                    } else {
+                        SlotStatus.PENDING_APPROVAL
+                    }
+                } else {
+                    SlotStatus.AVAILABLE
+                },
+                reservedBy = reservation?.userId,
+                reservedByName = reservation?.userName,
+                description = reservation?.description
+            ))
+        }
+
+        return slots
+    }
+
 
     fun getTimeSlots(spaceId: String, date: LocalDate): Flow<List<TimeSlot>> {
         return timeSlotDao.getTimeSlotsBySpaceAndDate(spaceId, date.toString())
