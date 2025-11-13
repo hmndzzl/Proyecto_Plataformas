@@ -27,6 +27,7 @@ import com.example.proyecto.presentation.profile.ProfileViewModel
 import com.example.proyecto.presentation.reserve.ReserveScreen
 import com.example.proyecto.presentation.reserve.ReserveViewModel
 import kotlinx.datetime.LocalDate
+import com.example.proyecto.presentation.utils.safePopBackStack
 
 // Navigation Routes
 sealed class Screen(val route: String) {
@@ -171,7 +172,7 @@ fun AppNavigation(
             DayReservationsScreen(
                 date = date,
                 reservations = dayReservations,
-                onBackClick = { navController.popBackStack() }
+                onBackClick = { navController.safePopBackStack()}
             )
         }
 
@@ -202,7 +203,7 @@ fun AppNavigation(
             AvailabilityScreen(
                 state = state,
                 onEvent = viewModel::onEvent,
-                onBackClick = { navController.popBackStack() },
+                onBackClick = { navController.safePopBackStack() },
                 onReserveClick = {
                     navController.navigate(Screen.Reserve.createRoute(spaceId))
                 }
@@ -237,7 +238,7 @@ fun AppNavigation(
             ReserveScreen(
                 state = state,
                 onEvent = viewModel::onEvent,
-                onBackClick = { navController.popBackStack() },
+                onBackClick = { navController.safePopBackStack() },
                 onReserveSuccess = {
                     navController.popBackStack(Screen.Dashboard.route, inclusive = false)
                 }
@@ -264,7 +265,7 @@ fun AppNavigation(
             ProfileScreen(
                 state = state,
                 onEvent = viewModel::onEvent,
-                onBackClick = { navController.popBackStack() },
+                onBackClick = { navController.safePopBackStack() },
                 onLogoutSuccess = {
                     navController.navigate(Screen.Login.route) {
                         popUpTo(0) { inclusive = true }
@@ -289,7 +290,7 @@ fun AppNavigation(
             AdminScreen(
                 state = state,
                 onEvent = viewModel::onEvent,
-                onBackClick = { navController.popBackStack() }
+                onBackClick = { navController.safePopBackStack() }
             )
         }
     }

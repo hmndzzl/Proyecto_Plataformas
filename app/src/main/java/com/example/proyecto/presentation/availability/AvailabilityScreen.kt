@@ -147,7 +147,7 @@ fun DateNavigator(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onPreviousDay) {
-                Icon(Icons.Default.ChevronLeft, "Día anterior")
+                Icon(Icons.Default.ChevronLeft, stringResource(R.string.availability_previous_day))
             }
 
             Text(
@@ -156,7 +156,7 @@ fun DateNavigator(
             )
 
             IconButton(onClick = onNextDay) {
-                Icon(Icons.Default.ChevronRight, "Siguiente día")
+                Icon(Icons.Default.ChevronRight, stringResource(R.string.availability_next_day))
             }
         }
     }
@@ -253,6 +253,6 @@ fun TimeSlotItem(slot: TimeSlot) {
 
 @Composable
 private fun formatDate(date: kotlinx.datetime.LocalDate): String {
-    val formatter = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM", Locale("es", "GT"))
+    val formatter = DateTimeFormatter.ofPattern(stringResource(R.string.availability_date_format), Locale.getDefault())
     return date.toJavaLocalDate().format(formatter)
 }

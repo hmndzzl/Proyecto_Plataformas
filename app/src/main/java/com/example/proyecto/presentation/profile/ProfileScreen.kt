@@ -346,7 +346,7 @@ fun UserHeader(
                 color = MaterialTheme.colorScheme.surface.copy(alpha = 0.2f)
             ) {
                 Text(
-                    text = "$reservationCount reservas",
+                    text = "$reservationCount ${stringResource(R.string.profile_reservation_count)}",
                     modifier = Modifier.padding(
                         horizontal = dimensionResource(R.dimen.spacing_medium),
                         vertical = dimensionResource(R.dimen.spacing_small)
@@ -485,7 +485,7 @@ fun ReservationCard(
                             contentColor = colorResource(R.color.error)
                         )
                     ) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.profile_cancel_reservation))
                     }
                 }
             }

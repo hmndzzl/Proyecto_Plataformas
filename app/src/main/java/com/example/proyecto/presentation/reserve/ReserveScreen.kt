@@ -185,7 +185,7 @@ fun DatePickerField(
         enabled = enabled,
         trailingIcon = {
             IconButton(onClick = { showDialog = true }) {
-                Icon(Icons.Default.CalendarToday, "Seleccionar fecha")
+                Icon(Icons.Default.CalendarToday, stringResource(R.string.reserve_select_date))
             }
         }
     )
@@ -242,7 +242,7 @@ fun TimePickerField(
         enabled = enabled,
         trailingIcon = {
             IconButton(onClick = { showDialog = true }) {
-                Icon(Icons.Default.Schedule, "Seleccionar hora")
+                Icon(Icons.Default.Schedule, stringResource(R.string.reserve_select_time))
             }
         }
     )

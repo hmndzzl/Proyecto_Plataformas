@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.proyecto.R
 import com.example.proyecto.domain.model.Reservation
@@ -50,9 +51,9 @@ fun AdminScreen(
                     tint = colorResource(R.color.status_available)
                 )
             },
-            title = { Text("Aprobar Reserva") },
+            title = { Text(stringResource(R.string.admin_approve_title)) },
             text = {
-                Text("¿Estás seguro de que deseas aprobar esta reserva?")
+                Text(stringResource(R.string.admin_approve_message))
             },
             confirmButton = {
                 Button(
@@ -61,12 +62,12 @@ fun AdminScreen(
                         containerColor = colorResource(R.color.status_available)
                     )
                 ) {
-                    Text("Aprobar")
+                    Text(stringResource(R.string.admin_approve))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { onEvent(AdminEvent.DialogDismissed) }) {
-                    Text("Cancelar")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -83,17 +84,17 @@ fun AdminScreen(
                     tint = colorResource(R.color.error)
                 )
             },
-            title = { Text("Rechazar Reserva") },
+            title = { Text(stringResource(R.string.admin_reject_title)) },
             text = {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small))
                 ) {
-                    Text("Ingresa el motivo del rechazo:")
+                    Text(stringResource(R.string.admin_reject_message))
                     OutlinedTextField(
                         value = state.rejectionReason,
                         onValueChange = { onEvent(AdminEvent.RejectionReasonChanged(it)) },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("Motivo del rechazo") },
+                        placeholder = { Text(stringResource(R.string.admin_rejection_reason_hint)) },
                         minLines = 3,
                         maxLines = 5
                     )
@@ -107,12 +108,12 @@ fun AdminScreen(
                     ),
                     enabled = state.rejectionReason.isNotBlank()
                 ) {
-                    Text("Rechazar")
+                    Text(stringResource(R.string.admin_reject))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { onEvent(AdminEvent.DialogDismissed) }) {
-                    Text("Cancelar")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -121,7 +122,7 @@ fun AdminScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Administración") },
+                title = { Text(stringResource(R.string.admin_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(Icons.Default.ArrowBack, "Volver")
@@ -160,7 +161,7 @@ fun AdminScreen(
                 // Pending Reservations Section
                 item {
                     Text(
-                        text = "Reservas Pendientes",
+                        text = stringResource(R.string.admin_pending_reservations),
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_medium))
                     )
@@ -181,7 +182,7 @@ fun AdminScreen(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "No hay reservas pendientes",
+                                    text = stringResource(R.string.admin_no_pending),
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -266,7 +267,7 @@ fun AdminHeader(
                 color = MaterialTheme.colorScheme.surface.copy(alpha = 0.2f)
             ) {
                 Text(
-                    text = "$pendingCount pendientes",
+                    text = stringResource(R.string.admin_pending_count, pendingCount),
                     modifier = Modifier.padding(
                         horizontal = dimensionResource(R.dimen.spacing_medium),
                         vertical = dimensionResource(R.dimen.spacing_small)
@@ -336,7 +337,7 @@ fun AdminReservationCard(
                     color = colorResource(R.color.status_pending_bg)
                 ) {
                     Text(
-                        text = "Pendiente",
+                        text = stringResource(R.string.reservation_status_pending),
                         modifier = Modifier.padding(
                             horizontal = dimensionResource(R.dimen.spacing_small),
                             vertical = 4.dp
@@ -437,7 +438,7 @@ fun AdminReservationCard(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(Modifier.width(dimensionResource(R.dimen.spacing_xs)))
-                    Text("Rechazar")
+                    Text(stringResource(R.string.admin_reject))
                 }
 
                 Button(
@@ -453,7 +454,7 @@ fun AdminReservationCard(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(Modifier.width(dimensionResource(R.dimen.spacing_xs)))
-                    Text("Aprobar")
+                    Text(stringResource(R.string.admin_approve))
                 }
             }
         }

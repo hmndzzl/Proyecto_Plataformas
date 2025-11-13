@@ -11,6 +11,8 @@
     <string name="login_button">Iniciar sesión</string>
     <string name="login_error">Error al iniciar sesión</string>
     <string name="login_loading">Iniciando sesión...</string>
+    <string name="login_email_invalid">Correo inválido. Debe ser un correo UVG (@uvg.edu.gt)</string>
+    <string name="login_password_invalid">La contraseña debe tener al menos 6 caracteres</string>
 
     <!-- Dashboard -->
     <string name="dashboard_greeting">Hola, %1$s</string>
@@ -27,6 +29,12 @@
     <string name="availability_loading">Cargando disponibilidad...</string>
     <string name="availability_error">Error al cargar disponibilidad</string>
     <string name="availability_retry">Reintentar</string>
+    <string name="availability_previous_day">Día anterior</string>
+    <string name="availability_next_day">Siguiente día</string>
+    <string name="availability_status_pending">Pendiente</string>
+    <string name="availability_status_blocked">Bloqueado</string>
+    <string name="availability_date_format">EEEE, d \'de\' MMMM</string>
+
 
     <!-- Reserve Form -->
     <string name="reserve_title">Reservar %1$s</string>
@@ -36,11 +44,19 @@
     <string name="reserve_description_label">Descripción del evento</string>
     <string name="reserve_description_hint">Ej. Práctica de club de fútbol</string>
     <string name="reserve_confirm_button">Confirmar reserva</string>
-    <string name="reserve_success_title">Reserva confirmada</string>
+    <string name="reserve_success_title">¡Reserva enviada!</string>
     <string name="reserve_success_message">Tu reserva ha sido enviada para su aprobación. Recibirás una notificación cuando sea revisada por el staff.</string>
     <string name="reserve_success_button">Entendido</string>
     <string name="reserve_error">Error al crear reserva</string>
     <string name="reserve_validation_error">Por favor completa todos los campos</string>
+    <string name="reserve_select_date">Seleccionar fecha</string>
+    <string name="reserve_select_time">Seleccionar hora</string>
+    <string name="reserve_error_missing_start_time">Seleccione hora de inicio</string>
+    <string name="reserve_error_missing_end_time">Seleccione hora de fin</string>
+    <string name="reserve_error_missing_description">Ingrese una descripción</string>
+    <string name="reserve_error_incomplete_data">Datos incompletos</string>
+    <string name="reserve_error_space_not_found">Espacio no encontrado</string>
+    <string name="reserve_error_user_not_authenticated">Usuario no autenticado</string>
 
     <!-- Profile Screen -->
     <string name="profile_title">Perfil</string>
@@ -57,11 +73,36 @@
     <string name="profile_language_label">Idioma</string>
     <string name="profile_language_spanish">Español</string>
     <string name="profile_language_english">Inglés</string>
+    <string name="profile_reservation_count">reservas</string>
+    <string name="profile_cancel_reservation">Cancelar</string>
+    <string name="profile_cancel_reservation_success">Reserva cancelada exitosamente</string>
+    <string name="profile_cancel_reservation_error">Error al cancelar reserva</string>
+
+    <!-- Admin Screen -->
+    <string name="admin_title">Administración</string>
+    <string name="admin_pending_reservations">Reservas Pendientes</string>
+    <string name="admin_no_pending">No hay reservas pendientes</string>
+    <string name="admin_approve">Aprobar</string>
+    <string name="admin_reject">Rechazar</string>
+    <string name="admin_approve_title">Aprobar Reserva</string>
+    <string name="admin_approve_message">¿Estás seguro de que deseas aprobar esta reserva?</string>
+    <string name="admin_reject_title">Rechazar Reserva</string>
+    <string name="admin_reject_message">Ingresa el motivo del rechazo:</string>
+    <string name="admin_rejection_reason_hint">Motivo del rechazo</string>
+    <string name="admin_pending_count">%1$d pendientes</string>
+    <string name="admin_error_no_permissions">No tienes permisos de administrador</string>
+    <string name="admin_error_loading">Error al cargar reservas</string>
+    <string name="admin_success_approved">Reserva aprobada exitosamente</string>
+    <string name="admin_success_rejected">Reserva rechazada</string>
+    <string name="admin_error_approve">Error al aprobar reserva</string>
+    <string name="admin_error_reject">Error al rechazar reserva</string>
+    <string name="admin_error_rejection_reason_required">Ingrese un motivo de rechazo</string>
 
     <!-- Navigation -->
     <string name="nav_home">Inicio</string>
     <string name="nav_profile">Perfil</string>
     <string name="nav_back">Volver</string>
+    <string name="nav_admin">Admin</string>
 
     <!-- Calendar -->
     <string name="calendar_monday">L</string>
@@ -73,6 +114,8 @@
     <string name="calendar_sunday">D</string>
     <string name="calendar_reservations_title">Reservas del %1$s</string>
     <string name="calendar_no_reservations">No hay reservas para este día</string>
+    <string name="calendar_previous_month">Mes anterior</string>
+    <string name="calendar_next_month">Siguiente mes</string>
 
     <!-- Time Slots -->
     <string name="time_slot_format">%1$s - %2$s</string>
@@ -91,14 +134,38 @@
     <string name="reservation_status_cancelled">Cancelada</string>
     <string name="reservation_status_completed">Completada</string>
 
+    <!-- Day Reservations Screen -->
+    <string name="day_reservations_title">Reservas del %1$s</string>
+    <string name="day_reservations_no_reservations">No hay reservas para este día</string>
+
+    <!-- Space Types -->
+    <string name="space_type_cancha">Cancha</string>
+    <string name="space_type_garden">Garden</string>
+
+    <!-- User Roles -->
+    <string name="user_role_student">Estudiante</string>
+    <string name="user_role_admin">Administrador</string>
+    <string name="user_role_staff">Staff</string>
+
     <!-- Error Messages -->
     <string name="error_network">Error de conexión. Verifica tu internet.</string>
     <string name="error_authentication">Error de autenticación</string>
     <string name="error_generic">Ha ocurrido un error</string>
+    <string name="error_loading_data">Error al cargar datos</string>
+    <string name="error_loading_profile">Error al cargar perfil</string>
+    <string name="error_loading_spaces">Error al cargar espacios</string>
+    <string name="error_loading_availability">Error al cargar disponibilidad</string>
+    <string name="error_creating_reservation">Error al crear reserva</string>
+    <string name="error_cancelling_reservation">Error al cancelar reserva</string>
+    <string name="error_logout">Error al cerrar sesión</string>
+    <string name="error_changing_theme">Error al cambiar tema</string>
+    <string name="error_changing_language">Error al cambiar idioma</string>
 
     <!-- Status -->
     <string name="status_loading">Cargando...</string>
     <string name="status_empty">No hay datos disponibles</string>
+    <string name="status_no_spaces">No hay espacios disponibles</string>
+    <string name="status_no_slots">No hay horarios disponibles</string>
 
     <!-- Common -->
     <string name="ok">OK</string>
@@ -106,4 +173,51 @@
     <string name="retry">Reintentar</string>
     <string name="save">Guardar</string>
     <string name="delete">Eliminar</string>
+    <string name="close">Cerrar</string>
+    <string name="accept">Aceptar</string>
+    <string name="confirm">Confirmar</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_show_password">Mostrar contraseña</string>
+    <string name="dialog_hide_password">Ocultar contraseña</string>
+
+    <!-- Icons -->
+    <string name="icon_profile">Perfil</string>
+    <string name="icon_admin">Admin</string>
+    <string name="icon_back">Volver</string>
+    <string name="icon_calendar">Calendario</string>
+    <string name="icon_time">Hora</string>
+    <string name="icon_description">Descripción</string>
+    <string name="icon_person">Persona</string>
+
+    <!-- Success Messages -->
+    <string name="success_reservation_created">Reserva creada exitosamente</string>
+    <string name="success_reservation_cancelled">Reserva cancelada</string>
+    <string name="success_logout">Sesión cerrada exitosamente</string>
+    <string name="success_settings_saved">Configuración guardada</string>
+
+    <!-- Months -->
+    <string name="month_january">Enero</string>
+    <string name="month_february">Febrero</string>
+    <string name="month_march">Marzo</string>
+    <string name="month_april">Abril</string>
+    <string name="month_may">Mayo</string>
+    <string name="month_june">Junio</string>
+    <string name="month_july">Julio</string>
+    <string name="month_august">Agosto</string>
+    <string name="month_september">Septiembre</string>
+    <string name="month_october">Octubre</string>
+    <string name="month_november">Noviembre</string>
+    <string name="month_december">Diciembre</string>
+
+    <!-- Days of Week (Full) -->
+    <string name="day_monday">Lunes</string>
+    <string name="day_tuesday">Martes</string>
+    <string name="day_wednesday">Miércoles</string>
+    <string name="day_thursday">Jueves</string>
+    <string name="day_friday">Viernes</string>
+    <string name="day_saturday">Sábado</string>
+    <string name="day_sunday">Domingo</string>
 </resources>

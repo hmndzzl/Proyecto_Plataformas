@@ -298,17 +298,17 @@ fun CalendarDayItem(
 @Composable
 private fun getMonthName(month: Month): String {
     return when (month) {
-        Month.JANUARY -> "Enero"
-        Month.FEBRUARY -> "Febrero"
-        Month.MARCH -> "Marzo"
-        Month.APRIL -> "Abril"
-        Month.MAY -> "Mayo"
-        Month.JUNE -> "Junio"
-        Month.JULY -> "Julio"
-        Month.AUGUST -> "Agosto"
-        Month.SEPTEMBER -> "Septiembre"
-        Month.OCTOBER -> "Octubre"
-        Month.NOVEMBER -> "Noviembre"
-        Month.DECEMBER -> "Diciembre"
+        Month.JANUARY -> stringResource(R.string.month_january)
+        Month.FEBRUARY -> stringResource(R.string.month_february)
+        Month.MARCH -> stringResource(R.string.month_march)
+        Month.APRIL -> stringResource(R.string.month_april)
+        Month.MAY -> stringResource(R.string.month_may)
+        Month.JUNE -> stringResource(R.string.month_june)
+        Month.JULY -> stringResource(R.string.month_july)
+        Month.AUGUST -> stringResource(R.string.month_august)
+        Month.SEPTEMBER -> stringResource(R.string.month_september)
+        Month.OCTOBER -> stringResource(R.string.month_october)
+        Month.NOVEMBER -> stringResource(R.string.month_november)
+        Month.DECEMBER -> stringResource(R.string.month_december)
     }
 }
