@@ -28,6 +28,8 @@ import com.example.proyecto.presentation.reserve.ReserveScreen
 import com.example.proyecto.presentation.reserve.ReserveViewModel
 import kotlinx.datetime.LocalDate
 import com.example.proyecto.presentation.utils.safePopBackStack
+import com.example.proyecto.presentation.day_reservations.DayReservationsViewModel
+import com.example.proyecto.presentation.day_reservations.DayReservationsEvent
 
 // Navigation Routes
 sealed class Screen(val route: String) {
@@ -151,31 +153,26 @@ fun AppNavigation(
             )
         ) { backStackEntry ->
             val dateString = backStackEntry.arguments?.getString("date") ?: ""
-            val date = LocalDate.parse(dateString)
+            val date = kotlinx.datetime.LocalDate.parse(dateString)
 
-            // Get reservations from dashboard state
-            val parentEntry = remember(backStackEntry) {
-                navController.getBackStackEntry(Screen.Dashboard.route)
-            }
-            val dashboardViewModel: DashboardViewModel = viewModel(
-                viewModelStoreOwner = parentEntry,
-                factory = DashboardViewModelFactory(
-                    useCases.getCurrentUserUseCase,
-                    useCases.getSpacesUseCase,
+            val viewModel: com.example.proyecto.presentation.day_reservations.DayReservationsViewModel = viewModel(
+                factory = DayReservationsViewModelFactory(
                     useCases.getReservationsForMonthUseCase
                 )
             )
 
-            val dashboardState by dashboardViewModel.state.collectAsState()
-            val dayReservations = dashboardState.monthReservations.filter { it.date == date }
+            val state by viewModel.state.collectAsState()
 
-            DayReservationsScreen(
-                date = date,
-                reservations = dayReservations,
-                onBackClick = { navController.safePopBackStack()}
+            LaunchedEffect(date) {
+                viewModel.onEvent(com.example.proyecto.presentation.day_reservations.DayReservationsEvent.LoadReservations(date))
+            }
+
+            com.example.proyecto.presentation.day_reservations.DayReservationsScreen(
+                state = state,
+                onEvent = viewModel::onEvent,
+                onBackClick = { navController.safePopBackStack() }
             )
         }
-
         // Availability Screen
         composable(
             route = Screen.Availability.route,

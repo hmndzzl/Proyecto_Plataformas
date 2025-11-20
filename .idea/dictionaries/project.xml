@@ -2,57 +2,126 @@
   <dictionary name="project">
     <words>
       <w>abril</w>
+      <w>acciones</w>
+      <w>acción</w>
+      <w>actualizado</w>
+      <w>actualizar</w>
+      <w>actualizarlos</w>
+      <w>adicionales</w>
       <w>administración</w>
+      <w>aprobadas</w>
       <w>aprobar</w>
       <w>autenticado</w>
+      <w>automática</w>
       <w>bloqueado</w>
+      <w>botones</w>
       <w>botón</w>
+      <w>cada</w>
       <w>cambiar</w>
       <w>cancelar</w>
       <w>caracteres</w>
       <w>cargar</w>
       <w>cerrar</w>
       <w>clickeable</w>
+      <w>clics</w>
+      <w>configurados</w>
+      <w>confirmando</w>
+      <w>confirmar</w>
+      <w>continuas</w>
       <w>contraseña</w>
       <w>crear</w>
       <w>datos</w>
+      <w>defecto</w>
+      <w>descripción</w>
       <w>deseas</w>
+      <w>después</w>
       <w>diciembre</w>
       <w>disponibilidad</w>
+      <w>diálogo</w>
+      <w>duplicados</w>
+      <w>ejecutar</w>
+      <w>eliminar</w>
+      <w>encontradas</w>
       <w>encontrado</w>
+      <w>encontrados</w>
       <w>enero</w>
       <w>espacio</w>
       <w>espacios</w>
+      <w>español</w>
+      <w>específico</w>
+      <w>esperar</w>
+      <w>estar</w>
       <w>estás</w>
+      <w>falla</w>
       <w>febrero</w>
+      <w>filtrar</w>
+      <w>generar</w>
+      <w>guardar</w>
+      <w>habilitar</w>
+      <w>historial</w>
+      <w>horario</w>
+      <w>idioma</w>
+      <w>ignorar</w>
+      <w>incompletos</w>
       <w>ingresa</w>
+      <w>ingrese</w>
+      <w>inicializando</w>
       <w>iniciar</w>
+      <w>inicio</w>
       <w>inválido</w>
       <w>junio</w>
+      <w>manejar</w>
+      <w>mapa</w>
       <w>marzo</w>
+      <w>menor</w>
       <w>menos</w>
+      <w>milisegundos</w>
+      <w>modificador</w>
+      <w>momento</w>
       <w>mostrar</w>
+      <w>navegación</w>
       <w>noviembre</w>
+      <w>observar</w>
+      <w>obtener</w>
       <w>octubre</w>
       <w>ocultar</w>
+      <w>ocupados</w>
       <w>pendiente</w>
       <w>pendientes</w>
       <w>permisos</w>
+      <w>permitido</w>
+      <w>prevenir</w>
+      <w>procesados</w>
+      <w>proporcionar</w>
       <w>proyecto</w>
+      <w>puede</w>
       <w>rechazar</w>
       <w>rechazo</w>
       <w>reserva</w>
+      <w>reservado</w>
+      <w>reservar</w>
       <w>reservas</w>
+      <w>rápidos</w>
+      <w>segundos</w>
       <w>seguro</w>
+      <w>seleccione</w>
       <w>septiembre</w>
       <w>sesión</w>
       <w>siguiente</w>
+      <w>sincronización</w>
+      <w>sincronizando</w>
+      <w>sincronizar</w>
       <w>snackbar</w>
       <w>tener</w>
+      <w>tiempo</w>
       <w>tiene</w>
       <w>tienes</w>
       <w>usar</w>
       <w>usuario</w>
+      <w>vacía</w>
+      <w>vacíos</w>
+      <w>validación</w>
+      <w>verificar</w>
     </words>
   </dictionary>
 </component>

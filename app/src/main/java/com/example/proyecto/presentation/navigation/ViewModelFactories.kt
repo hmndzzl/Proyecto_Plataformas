@@ -10,6 +10,7 @@ import com.example.proyecto.presentation.dashboard.DashboardViewModel
 import com.example.proyecto.presentation.availability.AvailabilityViewModel
 import com.example.proyecto.presentation.reserve.ReserveViewModel
 import com.example.proyecto.presentation.profile.ProfileViewModel
+import com.example.proyecto.presentation.day_reservations.DayReservationsViewModel
 
 // Login ViewModel Factory
 class LoginViewModelFactory(
@@ -129,6 +130,21 @@ class AdminViewModelFactory(
                 getPendingReservationsUseCase,
                 approveReservationUseCase,
                 rejectReservationUseCase
+            ) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+
+// DayReservations ViewModel Factory
+class DayReservationsViewModelFactory(
+    private val getReservationsForMonthUseCase: GetReservationsForMonthUseCase
+) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(DayReservationsViewModel::class.java)) {
+            return DayReservationsViewModel(
+                getReservationsForMonthUseCase
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

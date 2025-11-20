@@ -26,10 +26,19 @@ import java.util.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DayReservationsScreen(
-    date: LocalDate,
-    reservations: List<Reservation>,
+    state: DayReservationsState,
+    onEvent: (DayReservationsEvent) -> Unit,
     onBackClick: () -> Unit
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(state.error) {
+        state.error?.let { error ->
+            snackbarHostState.showSnackbar(error)
+            onEvent(DayReservationsEvent.ErrorDismissed)
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -37,7 +46,7 @@ fun DayReservationsScreen(
                     Text(
                         text = stringResource(
                             R.string.calendar_reservations_title,
-                            formatDate(date)
+                            formatDate(state.date)
                         )
                     )
                 },
@@ -47,9 +56,19 @@ fun DayReservationsScreen(
                     }
                 }
             )
-        }
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->
-        if (reservations.isEmpty()) {
+        if (state.isLoading && state.reservations.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else if (state.reservations.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -81,7 +100,7 @@ fun DayReservationsScreen(
                 contentPadding = PaddingValues(dimensionResource(R.dimen.spacing_medium)),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_medium))
             ) {
-                items(reservations) { reservation ->
+                items(state.reservations) { reservation ->
                     DayReservationCard(reservation)
                 }
             }

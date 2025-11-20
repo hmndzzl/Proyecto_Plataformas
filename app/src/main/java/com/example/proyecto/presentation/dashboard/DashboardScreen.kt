@@ -268,7 +268,11 @@ fun CalendarDayItem(
             .aspectRatio(1f)
             .clip(RoundedCornerShape(dimensionResource(R.dimen.calendar_day_corner_radius)))
             .background(backgroundColor)
-            .clickable(enabled = day.hasReservations) { onClick() },
+            .clickable(
+                enabled = day.isAvailable && day.hasReservations // Permitir clic si hay reservas
+            ) {
+                onClick()
+            },
         contentAlignment = Alignment.Center
     ) {
         Column(
