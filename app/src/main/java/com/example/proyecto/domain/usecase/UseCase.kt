@@ -95,7 +95,7 @@ class CreateReservationUseCase(private val spaceRepository: SpaceRepository) {
             return Result.failure(Exception("El horario permitido es de 7:00 AM a 9:00 PM"))
         }
 
-        // Validación 5: No puede reservar más de 4 horas continuas
+        // Validación 5: No puede reservar más de 2 horas continuas
         if (duration > 2) {
             return Result.failure(Exception("No puede reservar más de 2 horas continuas"))
         }

@@ -103,9 +103,9 @@ fun LoginScreen(
                                 else
                                     Icons.Default.VisibilityOff,
                                 contentDescription = if (passwordVisible)
-                                    "Ocultar contraseña"
+                                    stringResource(R.string.dialog_hide_password)
                                 else
-                                    "Mostrar contraseña"
+                                    stringResource(R.string.dialog_show_password)
                             )
                         }
                     },

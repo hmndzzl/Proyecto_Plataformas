@@ -233,7 +233,7 @@ fun DayReservationCard(reservation: Reservation) {
 }
 
 @Composable
-private fun formatDate(date: LocalDate): String {
-    val formatter = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM yyyy", Locale("es", "GT"))
+private fun formatDate(date: kotlinx.datetime.LocalDate): String {
+    val formatter = DateTimeFormatter.ofPattern(stringResource(R.string.availability_date_format), Locale.getDefault())
     return date.toJavaLocalDate().format(formatter)
 }

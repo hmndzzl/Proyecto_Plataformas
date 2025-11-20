@@ -60,11 +60,11 @@ fun DashboardScreen(
                     // Mostrar botón de admin si es administrador
                     if (state.user?.role == UserRole.ADMIN || state.user?.role == UserRole.STAFF) {
                         IconButton(onClick = onAdminClick) {
-                            Icon(Icons.Default.AdminPanelSettings, "Admin")
+                            Icon(Icons.Default.AdminPanelSettings, stringResource(R.string.nav_admin))
                         }
                     }
                     IconButton(onClick = onProfileClick) {
-                        Icon(Icons.Default.AccountCircle, "Perfil")
+                        Icon(Icons.Default.AccountCircle, stringResource(R.string.profile_title))
                     }
                 }
             )
@@ -194,7 +194,7 @@ fun CalendarSection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = onPreviousMonth) {
-                    Icon(Icons.Default.ChevronLeft, "Mes anterior")
+                    Icon(Icons.Default.ChevronLeft, stringResource(R.string.calendar_previous_month))
                 }
 
                 Text(
@@ -203,7 +203,7 @@ fun CalendarSection(
                 )
 
                 IconButton(onClick = onNextMonth) {
-                    Icon(Icons.Default.ChevronRight, "Siguiente mes")
+                    Icon(Icons.Default.ChevronRight, stringResource(R.string.calendar_next_month))
                 }
             }
 

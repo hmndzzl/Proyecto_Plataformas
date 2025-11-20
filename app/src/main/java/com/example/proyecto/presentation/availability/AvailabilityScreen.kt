@@ -231,8 +231,8 @@ fun TimeSlotItem(slot: TimeSlot) {
                     text = when (slot.status) {
                         SlotStatus.AVAILABLE -> stringResource(R.string.availability_available)
                         SlotStatus.RESERVED -> stringResource(R.string.availability_reserved)
-                        SlotStatus.PENDING_APPROVAL -> "Pendiente"
-                        SlotStatus.BLOCKED -> "Bloqueado"
+                        SlotStatus.PENDING_APPROVAL -> stringResource(R.string.availability_status_pending)
+                        SlotStatus.BLOCKED -> stringResource(R.string.availability_status_blocked)
                     },
                     modifier = Modifier.padding(
                         horizontal = dimensionResource(R.dimen.spacing_small),
