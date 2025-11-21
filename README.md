@@ -5,6 +5,9 @@
 - Hugo Méndez - 241265
 - Diego Calderón - 241263
 
+## Video Demostrativo final 
+https://youtu.be/CSLdw-x_MDE
+
 ## Descripción:
 Este proyecto fue creado con el propósito de ayudar a los estudiantes de la UVG y su STAFF a organizar de mejor manera los espacios recreativos dentro de la universidad. Se tomó como referencia varias opiniones de estudiantes dque han tenido problema de disponibilidad para ocupar estos lugares, ya sea por diversos eventos o bien por otros estudiantes que ya ocuparon el lugar. Para llevar una mejor organización y que todos puedan disponer de un tiempo justo en cada lugar recreativo, se propone una aplicación capaz de ver la disponibilidad de los lugares en tiempo real, capaz de realizar reservas por os estudiantes que deben ser aprobadas por el STAFF y debe ser inclusiva con todos los estudiantes, a esto se refiere, una UI fácil de entender y capaz de soportar diversos idiomas.
 
@@ -21,7 +24,7 @@ Este proyecto fue creado con el propósito de ayudar a los estudiantes de la UVG
 ## Link del repo:
 https://github.com/hmndzzl/Proyecto_Plataformas
 
-## link del video demostrativo:
+## link del video demostrativo entrega 1:
 https://youtu.be/jlatOp7VCkc
 
 ## diagrama de arquitectura o flujo del código:
